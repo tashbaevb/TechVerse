@@ -40,9 +40,14 @@ public class AdminController {
         return applicationService.exportToExcel(applicationService.getAll());
     }
 
-    @GetMapping("/get/appeals")
-    public List<Feedback> getAppeals() {
+    @GetMapping("/get/feedbacks")
+    public List<Feedback> getFeedbacks() {
         return feedbackService.getAll();
+    }
+
+    @GetMapping("/download/feedbacks")
+    public ResponseEntity<byte[]> downloadFeedbacksList() {
+        return feedbackService.exportToExcel(feedbackService.getAll());
     }
 
 
