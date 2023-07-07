@@ -46,4 +46,5 @@ public class User {
 
     @NotNull
     private Boolean activated = false; //подтвердил почту иль нет, по умолчанию всегда нет
+
 }

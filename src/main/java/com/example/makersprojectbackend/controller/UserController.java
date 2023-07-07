@@ -2,8 +2,11 @@ package com.example.makersprojectbackend.controller;
 
 import com.example.makersprojectbackend.dto.UserDto;
 import com.example.makersprojectbackend.entity.User;
+import com.example.makersprojectbackend.entity.forms.Feedback;
+import com.example.makersprojectbackend.entity.forms.Application;
 import com.example.makersprojectbackend.mappers.UserMapper;
 import com.example.makersprojectbackend.service.UserService;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -42,5 +45,15 @@ public class UserController {
     @DeleteMapping("/delete/{id}")
     public void deleteUser(@PathVariable Long id) {
         userService.delete(id);
+    }
+
+    @PutMapping("/sub/{courseId}")
+    public void submit(@PathVariable Long courseId, @RequestBody Application application) throws Exception {
+        userService.submit(courseId, application);
+    }
+
+    @PutMapping("/appeal")
+    public ResponseEntity<String> appeal(@RequestBody Feedback feedback) {
+        return userService.makeAppeal(feedback);
     }
 }
