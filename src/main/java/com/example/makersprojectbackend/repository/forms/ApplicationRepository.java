@@ -9,5 +9,4 @@ import java.util.List;
 @Repository
 public interface ApplicationRepository extends JpaRepository<Application, Long> {
 
-    public List<Application> findAllByCourseName(String courseName);
 }

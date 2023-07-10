@@ -6,6 +6,8 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+import java.time.LocalDateTime;
+
 @Entity
 @Table(name = "applications")
 @AllArgsConstructor
@@ -23,4 +25,6 @@ public class Application {
     private String phoneNumber;
 
     private String courseName; //имя курса куда хочет записаться заявитель
+
+    private LocalDateTime dateOfCreation;
 }

@@ -13,6 +13,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDateTime;
 import java.util.List;
 
 @Service
@@ -60,12 +61,14 @@ public class UserService {
         Course course = courseRepository.findById(courseId).orElseThrow();
         if (course.getCourseType() == CourseType.PAID) {
             application.setCourseName(course.getName());
+            application.setDateOfCreation(LocalDateTime.now());
             applicationRepository.save(application);
         } else throw new Exception("Курс бесплатный");
     }
 
-    public ResponseEntity<String> makeAppeal(Feedback feedback) {
+    public ResponseEntity<String> makeFeedback(Feedback feedback) {
         try {
+            feedback.setDateOfCreation(LocalDateTime.now());
             feedbackRepository.save(feedback);
             return ResponseEntity.ok("Обращение записано");
         } catch (Exception e) {

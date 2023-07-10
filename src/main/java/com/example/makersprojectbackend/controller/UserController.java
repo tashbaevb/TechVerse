@@ -47,13 +47,13 @@ public class UserController {
         userService.delete(id);
     }
 
-    @PutMapping("/sub/{courseId}")
+    @PutMapping("/sub/{courseId}") //записаться на курс
     public void submit(@PathVariable Long courseId, @RequestBody Application application) throws Exception {
         userService.submit(courseId, application);
     }
 
-    @PutMapping("/appeal")
-    public ResponseEntity<String> appeal(@RequestBody Feedback feedback) {
-        return userService.makeAppeal(feedback);
+    @PutMapping("/feedback")
+    public ResponseEntity<String> feedback(@RequestBody Feedback feedback) {
+        return userService.makeFeedback(feedback);
     }
 }
