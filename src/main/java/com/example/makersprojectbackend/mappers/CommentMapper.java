@@ -24,9 +24,6 @@ public class CommentMapper {
         return commentDtoList;
     }
 
-    public Comment convertToEntity(CommentDto commentDto) {
-        return mapper.map(commentDto, Comment.class);
-    }
 
     public CommentDto convertToDTO(Comment comment) {
         return mapper.map(comment, CommentDto.class);

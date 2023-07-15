@@ -6,7 +6,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-import java.util.List;
+import java.util.Map;
 
 @Entity
 @Table(name = "questions")
@@ -19,12 +19,12 @@ public class Question {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    private String text; //содержимое вопроса
+    private String question; //содержимое вопроса
 
     @OneToMany(mappedBy = "question")
-    private List<Answer> answers;
+    private Map<Integer, Answer> answers;
 
     @ManyToOne
-    private Test test;
+    private Quiz quiz;
 
 }

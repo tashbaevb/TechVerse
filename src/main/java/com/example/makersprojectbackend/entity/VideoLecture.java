@@ -1,6 +1,6 @@
 package com.example.makersprojectbackend.entity;
 
-import com.example.makersprojectbackend.entity.test.Test;
+import com.example.makersprojectbackend.entity.test.Quiz;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -25,5 +25,5 @@ public class VideoLecture {
     private Course course;
 
     @OneToOne(mappedBy = "videoLecture")
-    private Test test;
+    private Quiz quiz;
 }

@@ -2,10 +2,11 @@ package com.example.makersprojectbackend.controller;
 
 import com.example.makersprojectbackend.dto.UserDto;
 import com.example.makersprojectbackend.entity.User;
-import com.example.makersprojectbackend.entity.forms.Feedback;
 import com.example.makersprojectbackend.entity.forms.Application;
+import com.example.makersprojectbackend.entity.forms.Feedback;
 import com.example.makersprojectbackend.mappers.UserMapper;
-import com.example.makersprojectbackend.service.UserService;
+import com.example.makersprojectbackend.service.impl.UserServiceImpl;
+import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -13,47 +14,43 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/user")
+@RequiredArgsConstructor
 public class UserController {
-    private final UserService userService;
+    private final UserServiceImpl userServiceImpl;
     private final UserMapper userMapper;
-
-    public UserController(UserService userService, UserMapper userMapper) {
-        this.userService = userService;
-        this.userMapper = userMapper;
-    }
 
     @PostMapping("/create")
     public UserDto createUser(@RequestBody User user) {
-        return userMapper.convertToDTO(userService.create(user));
+        return userMapper.convertToDTO(userServiceImpl.create(user));
     }
 
     @GetMapping("/get/{id}")
     public UserDto getUserById(@PathVariable Long id) {
-        return userMapper.convertToDTO(userService.getById(id));
+        return userMapper.convertToDTO(userServiceImpl.getById(id));
     }
 
     @GetMapping("/get/all")
     public List<UserDto> getAllUsers() {
-        return userMapper.convertToDTOList(userService.getAll());
+        return userMapper.convertToDTOList(userServiceImpl.getAll());
     }
 
     @PutMapping("/update")
     public UserDto updateUser(@RequestBody User userDetails) {
-        return userMapper.convertToDTO(userService.update(userDetails));
+        return userMapper.convertToDTO(userServiceImpl.update(userDetails));
     }
 
     @DeleteMapping("/delete/{id}")
     public void deleteUser(@PathVariable Long id) {
-        userService.delete(id);
+        userServiceImpl.delete(id);
     }
 
     @PutMapping("/sub/{courseId}") //записаться на курс
     public void submit(@PathVariable Long courseId, @RequestBody Application application) throws Exception {
-        userService.submit(courseId, application);
+        userServiceImpl.submit(courseId, application);
     }
 
-    @PutMapping("/feedback")
+    @PutMapping("/feedback") //связаться
     public ResponseEntity<String> feedback(@RequestBody Feedback feedback) {
-        return userService.makeFeedback(feedback);
+        return userServiceImpl.makeFeedback(feedback);
     }
 }

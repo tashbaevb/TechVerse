@@ -1,38 +1,20 @@
 package com.example.makersprojectbackend.service;
 
 import com.example.makersprojectbackend.entity.Comment;
-import com.example.makersprojectbackend.repository.CommentRepository;
-import org.springframework.stereotype.Service;
 
 import java.util.List;
 
-@Service
-public class CommentService {
-    private final CommentRepository commentRepository;
+public interface CommentService {
 
-    public CommentService(CommentRepository commentRepository) {
-        this.commentRepository = commentRepository;
-    }
+    Comment create(Comment comment);
 
-    public Comment create(Comment comment) {
-        return commentRepository.save(comment);
-    }
+    Comment getById(Long id);
 
-    public Comment getById(Long id) {
-        return commentRepository.findById(id).orElseThrow();
-    }
+    List<Comment> getAll();
 
-    public List<Comment> getAll() {
-        return commentRepository.findAll();
-    }
+    Comment update(Comment commentDetails);
 
-    public Comment update(Comment commentDetails) {
-        Comment comment = getById(commentDetails.getId());
-        comment.setText(commentDetails.getText());
-        return commentRepository.save(comment);
-    }
+    void delete(Long id);
 
-    public void delete(Long id) {
-        commentRepository.deleteById(id);
-    }
+
 }

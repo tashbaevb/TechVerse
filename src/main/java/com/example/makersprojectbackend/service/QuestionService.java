@@ -1,22 +1,10 @@
 package com.example.makersprojectbackend.service;
 
 import com.example.makersprojectbackend.entity.test.Question;
-import com.example.makersprojectbackend.repository.QuestionRepository;
-import org.springframework.stereotype.Service;
 
-@Service
-public class QuestionService {
-    private final QuestionRepository questionRepository;
+public interface QuestionService {
 
-    public QuestionService(QuestionRepository questionRepository) {
-        this.questionRepository = questionRepository;
-    }
+    Question create(Question question);
 
-    public Question create(Question question) {
-        return questionRepository.save(question);
-    }
-
-    public Question getById(Long id) {
-        return questionRepository.findById(id).orElseThrow();
-    }
+    Question getById(Long id);
 }

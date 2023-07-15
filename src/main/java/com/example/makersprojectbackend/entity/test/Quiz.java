@@ -7,23 +7,23 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-import java.util.List;
+import java.util.Map;
 
 @Entity
-@Table(name = "tests")
+@Table(name = "quizzes")
 @AllArgsConstructor
 @NoArgsConstructor
 @Getter
 @Setter
-public class Test {
+public class Quiz {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     private String title;
 
-    @OneToMany(mappedBy = "test")
-    private List<Question> questions;
+    @OneToMany(mappedBy = "quiz")
+    private Map<Integer, Question> questions;
 
     @OneToOne
     private VideoLecture videoLecture;

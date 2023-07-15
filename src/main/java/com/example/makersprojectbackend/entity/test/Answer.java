@@ -1,6 +1,5 @@
 package com.example.makersprojectbackend.entity.test;
 
-import com.example.makersprojectbackend.enums.AnswerType;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -18,9 +17,9 @@ public class Answer {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    private String text; //содержимое ответа
+    private String answer; //содержимое ответа
 
-    private AnswerType answerType; //привальный ответ или нет
+    private Boolean correct; //привальный ответ или нет
 
     @ManyToOne
     private Question question;

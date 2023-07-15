@@ -1,4 +1,4 @@
-package com.example.makersprojectbackend.repository;
+package com.example.makersprojectbackend.repository.test;
 
 import com.example.makersprojectbackend.entity.test.Question;
 import org.springframework.data.jpa.repository.JpaRepository;
