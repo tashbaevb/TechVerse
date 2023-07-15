@@ -31,7 +31,7 @@ public class PaidCourseController {
         return enrollService.getAllEnrolls();
     }
 
-    @PostMapping("/api")
+    @PostMapping("/enrolls")
     public ResponseEntity<String> enrollPaidCourse(@RequestBody Enroll enroll) {
         enrollService.enrollPaidCourse(enroll);
         return ResponseEntity.status(HttpStatus.CREATED).body("Вы успешно записались на платный курс.");
