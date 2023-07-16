@@ -5,9 +5,7 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 @SpringBootApplication
 public class TechVerseApplication {
-
-	public static void main(String[] args) {
-		SpringApplication.run(TechVerseApplication.class, args);
-	}
-
+    public static void main(String[] args) {
+        SpringApplication.run(TechVerseApplication.class, args);
+    }
 }
