@@ -32,11 +32,6 @@ public class UserController {
         return userMapper.convertToDtoList(userService.getAll());
     }
 
-    @PutMapping("/update")
-    public UserDto update(@RequestBody User userDetails) {
-        return userMapper.convertToDto(userService.update(userDetails));
-    }
-
     @DeleteMapping("/delete/{userId}")
     public void delete(@PathVariable Long userId) {
         userService.delete(userId);

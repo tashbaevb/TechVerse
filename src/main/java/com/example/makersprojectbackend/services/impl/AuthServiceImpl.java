@@ -1,8 +1,10 @@
 package com.example.makersprojectbackend.services.impl;
 
 import com.example.makersprojectbackend.dto.UserDto;
+import com.example.makersprojectbackend.entities.SchoolInfo;
 import com.example.makersprojectbackend.entities.User;
 import com.example.makersprojectbackend.enums.UserRole;
+import com.example.makersprojectbackend.repositories.SchoolInfoRepository;
 import com.example.makersprojectbackend.repositories.UserRepository;
 import com.example.makersprojectbackend.services.AuthService;
 import com.example.makersprojectbackend.services.EmailService;
@@ -20,15 +22,31 @@ import java.util.UUID;
 @RequiredArgsConstructor
 public class AuthServiceImpl implements AuthService {
     private final UserRepository userRepository;
+    private final SchoolInfoRepository schoolInfoRepository;
     private final EmailService emailService;
     private final PasswordEncoder passwordEncoder;
 
     @Override
-    public void register(UserDto registrationRequest) {
+    public void register(User registrationRequest) {
         User user = new User();
         user.setEmail(registrationRequest.getEmail());
         user.setPassword(passwordEncoder.encode(registrationRequest.getPassword()));
+        user.setNameSurname(registrationRequest.getNameSurname());
         user.setUserRole(UserRole.ROLE_USER);
+
+        SchoolInfo schoolInfo1 = registrationRequest.getSchoolInfo();
+        SchoolInfo schoolInfo = new SchoolInfo();
+        schoolInfo.setSchoolName(schoolInfo1.getSchoolName());
+        schoolInfo.setSchoolNumber(schoolInfo1.getSchoolNumber());
+        schoolInfo.setLocation(schoolInfo1.getLocation());
+        schoolInfo.setGrade(schoolInfo1.getGrade());
+
+
+        schoolInfoRepository.save(schoolInfo);
+        user.setSchoolInfo(schoolInfo);
+        schoolInfo.setUser(user);
+
+
         userRepository.save(user);
     }
 

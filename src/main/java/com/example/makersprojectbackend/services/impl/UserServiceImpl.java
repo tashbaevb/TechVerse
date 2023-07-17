@@ -31,18 +31,14 @@ public class UserServiceImpl implements UserService {
         return userRepository.findAll();
     }
 
-    @Override
-    public User update(User userDetails) {
-        User user = getById(userDetails.getId());
-        user.setEmail(userDetails.getEmail());
-        user.setPassword(userDetails.getPassword());
-        user.setPhoneNumber(userDetails.getPhoneNumber());
-
-//        user.setFreelancer(userDetails.getFreelancer());
-//        user.setExpert(userDetails.getExpert());
-//        user.setUserRole(userDetails.getUserRole());
-        return userRepository.save(user);
-    }
+//    @Override
+//    public User update(User userDetails) {
+//        User user = getById(userDetails.getId());
+//        user.setEmail(userDetails.getEmail());
+//        user.setPassword(userDetails.getPassword());
+//
+//        return userRepository.save(user);
+//    }
 
     @Override
     public void delete(Long id) {

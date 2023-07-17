@@ -2,6 +2,7 @@ package com.example.makersprojectbackend.controllers;
 
 
 import com.example.makersprojectbackend.dto.UserDto;
+import com.example.makersprojectbackend.entities.User;
 import com.example.makersprojectbackend.security.JwtUtil;
 import com.example.makersprojectbackend.services.AuthService;
 import lombok.RequiredArgsConstructor;
@@ -21,7 +22,7 @@ public class AuthController {
     private final AuthService authService;
 
     @PostMapping("/register")
-    public ResponseEntity<String> register(@RequestBody UserDto registrationRequest) {
+    public ResponseEntity<String> register(@RequestBody User registrationRequest) {
         if (authService.isPresentEmail(registrationRequest.getEmail())) {
             return ResponseEntity.badRequest().body("Email is already taken!");
         }
@@ -30,7 +31,7 @@ public class AuthController {
     }
 
     @PostMapping("/auth")
-    public String authenticate(@RequestBody UserDto authRequest) {
+    public String authenticate(@RequestBody User authRequest) {
         Authentication authentication = authenticationManager.authenticate(new UsernamePasswordAuthenticationToken
                 (authRequest.getEmail(), authRequest.getPassword()));
         if (authentication.isAuthenticated()) {
