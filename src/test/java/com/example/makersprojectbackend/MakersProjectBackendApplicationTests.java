@@ -9,5 +9,4 @@ class MakersProjectBackendApplicationTests {
     @Test
     void contextLoads() {
     }
-
 }

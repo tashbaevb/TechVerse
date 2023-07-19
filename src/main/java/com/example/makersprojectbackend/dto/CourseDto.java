@@ -5,6 +5,7 @@ import com.example.makersprojectbackend.entity.VideoLecture;
 import com.example.makersprojectbackend.enums.CourseType;
 import lombok.Data;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Data
@@ -23,4 +24,8 @@ public class CourseDto {
 
     private Double duration; //продолжительность курса в часах
 
+//    public CourseDto() {
+//        this.videoLectures = new ArrayList<>();
+//        this.lectureQuantity = videoLectures.size();
+//    }
 }
