@@ -16,16 +16,12 @@ import java.util.List;
 @Getter
 @Setter
 public class Course {
-
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-
     private String name;
-
     private String description;
-
-    private CourseType courseType; //платный/бесплатный
+    private CourseType courseType; //бесплатный/платный
 
     @OneToMany(mappedBy = "course")
     private List<Lecture> lectures; //лекции
@@ -34,7 +30,5 @@ public class Course {
     private List<VideoLecture> videoLectures; //видео-лекции
 
     private Double duration; //продолжительность курса в часах
-
     private Integer lectureQuantity; //кол-во видео лекций
-
 }

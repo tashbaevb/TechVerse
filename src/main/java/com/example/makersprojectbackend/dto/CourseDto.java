@@ -20,12 +20,8 @@ public class CourseDto {
 
     private List<VideoLecture> videoLectures; //видео-лекции
 
-    private Integer lectureQuantity = videoLectures.size(); //кол-во видео лекций
+    private Integer lectureQuantity; //кол-во видео лекций
 
     private Double duration; //продолжительность курса в часах
 
-//    public CourseDto() {
-//        this.videoLectures = new ArrayList<>();
-//        this.lectureQuantity = videoLectures.size();
-//    }
 }

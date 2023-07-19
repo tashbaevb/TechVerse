@@ -24,7 +24,6 @@ public class CourseMapper {
         return courseDtoList;
     }
 
-
     public CourseDto convertToDTO(Course course) {
         return mapper.map(course, CourseDto.class);
     }

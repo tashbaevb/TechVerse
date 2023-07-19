@@ -44,11 +44,9 @@ public class AdminController {
         return feedbackServiceImpl.exportToExcel(feedbackServiceImpl.getAll());
     }
 
-
-
     //  КУРСЫ
     @PostMapping("/course/create")
-    public CourseDto createCourse(Course course) {
+    public CourseDto createCourse(@RequestBody Course course) {
         return courseMapper.convertToDTO(courseServiceImpl.create(course));
     }
 
@@ -91,7 +89,4 @@ public class AdminController {
     public CourseDto removeVideoLectureToCourse(@PathVariable Long courseId, @PathVariable Long lectureId) {
         return courseMapper.convertToDTO(courseServiceImpl.removeVideoLecture(courseId, lectureId));
     }
-
-
-    //
 }
