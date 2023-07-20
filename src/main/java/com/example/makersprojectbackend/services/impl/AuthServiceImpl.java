@@ -1,6 +1,5 @@
 package com.example.makersprojectbackend.services.impl;
 
-import com.example.makersprojectbackend.dto.UserDto;
 import com.example.makersprojectbackend.entities.SchoolInfo;
 import com.example.makersprojectbackend.entities.User;
 import com.example.makersprojectbackend.enums.UserRole;
@@ -41,11 +40,9 @@ public class AuthServiceImpl implements AuthService {
         schoolInfo.setLocation(schoolInfo1.getLocation());
         schoolInfo.setGrade(schoolInfo1.getGrade());
 
-
         schoolInfoRepository.save(schoolInfo);
         user.setSchoolInfo(schoolInfo);
         schoolInfo.setUser(user);
-
 
         userRepository.save(user);
     }

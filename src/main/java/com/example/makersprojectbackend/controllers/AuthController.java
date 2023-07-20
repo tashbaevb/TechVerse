@@ -1,7 +1,5 @@
 package com.example.makersprojectbackend.controllers;
 
-
-import com.example.makersprojectbackend.dto.UserDto;
 import com.example.makersprojectbackend.entities.User;
 import com.example.makersprojectbackend.security.JwtUtil;
 import com.example.makersprojectbackend.services.AuthService;
@@ -24,10 +22,10 @@ public class AuthController {
     @PostMapping("/register")
     public ResponseEntity<String> register(@RequestBody User registrationRequest) {
         if (authService.isPresentEmail(registrationRequest.getEmail())) {
-            return ResponseEntity.badRequest().body("Email is already taken!");
+            return ResponseEntity.badRequest().body("Не верный email");
         }
         authService.register(registrationRequest);
-        return ResponseEntity.ok("User registered successfully!");
+        return ResponseEntity.ok("Вы зарегистрировались!");
     }
 
     @PostMapping("/auth")

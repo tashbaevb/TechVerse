@@ -10,10 +10,7 @@ import org.springframework.stereotype.Component;
 @Component
 @RequiredArgsConstructor
 public class EmailServiceImpl implements EmailService {
-
     private final JavaMailSender mailSender;
-
-
     @Override
     public void sendSimpleMessage(String to, String subject, String text) {
         try {

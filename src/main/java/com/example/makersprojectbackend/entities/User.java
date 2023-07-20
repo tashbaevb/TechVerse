@@ -28,10 +28,8 @@ public class User {
     private SchoolInfo schoolInfo;
     @Enumerated(EnumType.STRING)
     private UserRole userRole;
-
     @Column(name = "reset_token")
     private String resetToken;
-
     @Column(name = "reset_token_expire_time")
     private LocalDateTime resetTokenExpireTime;
 }

@@ -9,6 +9,7 @@ import org.springframework.stereotype.Component;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 @Component
 @RequiredArgsConstructor
@@ -16,6 +17,9 @@ public class UserMapper {
     private final ModelMapper mapper;
 
     public UserDto convertToDto(User user) {
+        return mapper.map(user, UserDto.class);
+    }
+    public UserDto convertToDtoOpt(Optional<User> user) {
         return mapper.map(user, UserDto.class);
     }
 
