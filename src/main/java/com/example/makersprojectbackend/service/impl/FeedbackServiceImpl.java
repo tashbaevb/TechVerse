@@ -3,6 +3,7 @@ package com.example.makersprojectbackend.service.impl;
 import com.example.makersprojectbackend.entity.forms.Feedback;
 import com.example.makersprojectbackend.repository.forms.FeedbackRepository;
 import com.example.makersprojectbackend.service.FeedbackService;
+import lombok.RequiredArgsConstructor;
 import org.apache.poi.ss.usermodel.*;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import org.springframework.http.HttpHeaders;
@@ -18,12 +19,9 @@ import java.time.format.DateTimeFormatter;
 import java.util.List;
 
 @Service
+@RequiredArgsConstructor
 public class FeedbackServiceImpl implements FeedbackService {
     private final FeedbackRepository feedbackRepository;
-
-    public FeedbackServiceImpl(FeedbackRepository feedbackRepository) {
-        this.feedbackRepository = feedbackRepository;
-    }
 
     @Override
     public Feedback create(Feedback feedback){
@@ -44,7 +42,6 @@ public class FeedbackServiceImpl implements FeedbackService {
     public void delete(Long id){
         feedbackRepository.deleteById(id);
     }
-
 
     @Override
     public ResponseEntity<byte[]> exportToExcel(List<Feedback> feedbacks) {

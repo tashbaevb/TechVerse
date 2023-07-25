@@ -2,10 +2,8 @@ package com.example.makersprojectbackend.entity;
 
 import com.example.makersprojectbackend.entity.test.Quiz;
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
+import lombok.experimental.FieldDefaults;
 
 @Entity
 @Table(name = "vids")
@@ -13,17 +11,17 @@ import lombok.Setter;
 @NoArgsConstructor
 @Getter
 @Setter
+@FieldDefaults(level = AccessLevel.PRIVATE)
+@Builder
 public class VideoLecture {
-
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
-
-    private String link;
+    Long id;
+    String link;
 
     @ManyToOne
-    private Course course;
+    Course course;
 
     @OneToOne(mappedBy = "videoLecture")
-    private Quiz quiz;
+    Quiz quiz;
 }

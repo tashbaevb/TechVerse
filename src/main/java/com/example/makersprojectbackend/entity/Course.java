@@ -2,10 +2,8 @@ package com.example.makersprojectbackend.entity;
 
 import com.example.makersprojectbackend.enums.CourseType;
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
+import lombok.experimental.FieldDefaults;
 
 import java.util.List;
 
@@ -15,20 +13,22 @@ import java.util.List;
 @NoArgsConstructor
 @Getter
 @Setter
+@FieldDefaults(level = AccessLevel.PRIVATE)
+@Builder
 public class Course {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
-    private String name;
-    private String description;
-    private CourseType courseType; //бесплатный/платный
+    Long id;
+    String name;
+    String description;
+    CourseType courseType; //бесплатный/платный
 
     @OneToMany(mappedBy = "course")
-    private List<Lecture> lectures; //лекции
+    List<Lecture> lectures; //лекции
 
     @OneToMany(mappedBy = "course")
-    private List<VideoLecture> videoLectures; //видео-лекции
+    List<VideoLecture> videoLectures; //видео-лекции
 
-    private Double duration; //продолжительность курса в часах
-    private Integer lectureQuantity; //кол-во видео лекций
+    Double duration; //продолжительность курса в часах
+    Integer lectureQuantity; //кол-во видео лекций
 }

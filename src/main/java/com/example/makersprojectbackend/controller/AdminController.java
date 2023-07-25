@@ -44,7 +44,7 @@ public class AdminController {
         return feedbackServiceImpl.exportToExcel(feedbackServiceImpl.getAll());
     }
 
-    //  КУРСЫ
+    //  Бесплатные КУРСЫ
     @PostMapping("/course/create")
     public CourseDto createCourse(@RequestBody Course course) {
         return courseMapper.convertToDTO(courseServiceImpl.create(course));

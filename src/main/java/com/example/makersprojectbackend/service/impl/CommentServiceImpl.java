@@ -3,17 +3,15 @@ package com.example.makersprojectbackend.service.impl;
 import com.example.makersprojectbackend.entity.Comment;
 import com.example.makersprojectbackend.repository.CommentRepository;
 import com.example.makersprojectbackend.service.CommentService;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 
 @Service
+@RequiredArgsConstructor
 public class CommentServiceImpl implements CommentService {
     private final CommentRepository commentRepository;
-
-    public CommentServiceImpl(CommentRepository commentRepository) {
-        this.commentRepository = commentRepository;
-    }
 
     @Override
     public Comment create(Comment comment) {

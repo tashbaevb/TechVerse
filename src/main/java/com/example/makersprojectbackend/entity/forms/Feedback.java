@@ -1,10 +1,8 @@
 package com.example.makersprojectbackend.entity.forms;
 
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
+import lombok.experimental.FieldDefaults;
 
 import java.time.LocalDateTime;
 
@@ -14,15 +12,14 @@ import java.time.LocalDateTime;
 @NoArgsConstructor
 @Getter
 @Setter
+@FieldDefaults(level = AccessLevel.PRIVATE)
 public class Feedback {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    Long id;
 
-    private String fullName;
-
-    private String phoneNumber;
-
-    private LocalDateTime dateOfCreation;
+    String fullName, phoneNumber;
+//    private String phoneNumber;
+    LocalDateTime dateOfCreation;
 }

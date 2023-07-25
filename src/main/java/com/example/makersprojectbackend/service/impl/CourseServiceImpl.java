@@ -5,21 +5,17 @@ import com.example.makersprojectbackend.repository.CourseRepository;
 import com.example.makersprojectbackend.repository.LectureRepository;
 import com.example.makersprojectbackend.repository.VideoLectureRepository;
 import com.example.makersprojectbackend.service.CourseService;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 
 @Service
+@RequiredArgsConstructor
 public class CourseServiceImpl implements CourseService {
     private final CourseRepository courseRepository;
     private final LectureRepository lectureRepository;
     private final VideoLectureRepository videoLectureRepository;
-
-    public CourseServiceImpl(CourseRepository courseRepository, LectureRepository lectureRepository, VideoLectureRepository videoLectureRepository) {
-        this.courseRepository = courseRepository;
-        this.lectureRepository = lectureRepository;
-        this.videoLectureRepository = videoLectureRepository;
-    }
 
     @Override
     public Course create(Course course) {

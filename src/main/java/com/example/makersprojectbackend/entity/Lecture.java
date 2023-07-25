@@ -1,10 +1,8 @@
 package com.example.makersprojectbackend.entity;
 
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
+import lombok.experimental.FieldDefaults;
 
 @Entity
 @Table(name = "lectures")
@@ -12,16 +10,15 @@ import lombok.Setter;
 @NoArgsConstructor
 @Getter
 @Setter
+@FieldDefaults(level = AccessLevel.PRIVATE)
+@Builder
 public class Lecture {
-
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
-
-    private String title;
-
-    private String text;
+    Long id;
+    String title;
+    String text;
 
     @ManyToOne
-    private Course course;
+    Course course;
 }

@@ -5,10 +5,8 @@ import jakarta.persistence.*;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
+import lombok.experimental.FieldDefaults;
 
 @Entity
 @Table(name = "users")
@@ -16,35 +14,35 @@ import lombok.Setter;
 @NoArgsConstructor
 @Getter
 @Setter
+@FieldDefaults(level = AccessLevel.PRIVATE)
+@Builder
 public class User {
-
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    Long id;
 
     @NotNull
-    private String fullName;
+    String fullName;
 
     @Email
     @NotNull
-    private String email;
+    String email;
 
     @NotNull
     @Size(min = 6, max = 16)
-    private String password;
+    String password;
 
-    private String link; //ссылка к фотке
-
-    @NotNull
-    private String username;
+    String link; //ссылка к фотке
 
     @NotNull
-    private String school;
+    String username, school;
+//
+//    @NotNull
+//    String school;
 
     @NotNull
-    private UserRole userRole = UserRole.USER;
+    UserRole userRole = UserRole.USER;
 
     @NotNull
-    private Boolean activated = false; //подтвердил почту иль нет, по умолчанию всегда нет
-
+    Boolean activated = false; //подтвердил почту иль нет, по умолчанию всегда нет
 }

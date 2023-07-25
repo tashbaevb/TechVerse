@@ -4,6 +4,7 @@ import com.example.makersprojectbackend.models.Enroll;
 import com.example.makersprojectbackend.models.PaidCourse;
 import com.example.makersprojectbackend.service.EnrollService;
 import com.example.makersprojectbackend.service.PaidCourseService;
+import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -12,14 +13,10 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/paidcourses")
+@RequiredArgsConstructor
 public class PaidCourseController {
     private final PaidCourseService paidCourseService;
     private final EnrollService enrollService;
-
-    public PaidCourseController(PaidCourseService paidCourseService, EnrollService enrollService) {
-        this.paidCourseService = paidCourseService;
-        this.enrollService = enrollService;
-    }
 
     @GetMapping
     public List<PaidCourse> getAllCourses() {

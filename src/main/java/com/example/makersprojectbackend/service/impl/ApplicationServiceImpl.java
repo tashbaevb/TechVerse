@@ -4,6 +4,7 @@ import com.example.makersprojectbackend.entity.forms.Application;
 import com.example.makersprojectbackend.repository.CourseRepository;
 import com.example.makersprojectbackend.repository.forms.ApplicationRepository;
 import com.example.makersprojectbackend.service.ApplicationService;
+import lombok.RequiredArgsConstructor;
 import org.apache.poi.ss.usermodel.*;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import org.springframework.http.HttpHeaders;
@@ -19,14 +20,10 @@ import java.time.format.DateTimeFormatter;
 import java.util.List;
 
 @Service
+@RequiredArgsConstructor
 public class ApplicationServiceImpl implements ApplicationService {
     private final ApplicationRepository applicationRepository;
     private final CourseRepository courseRepository;
-
-    public ApplicationServiceImpl(ApplicationRepository applicationRepository, CourseRepository courseRepository) {
-        this.applicationRepository = applicationRepository;
-        this.courseRepository = courseRepository;
-    }
 
     @Override
     public List<Application> getAll() {

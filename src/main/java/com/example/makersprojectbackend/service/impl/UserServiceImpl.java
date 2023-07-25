@@ -10,6 +10,7 @@ import com.example.makersprojectbackend.repository.UserRepository;
 import com.example.makersprojectbackend.repository.forms.ApplicationRepository;
 import com.example.makersprojectbackend.repository.forms.FeedbackRepository;
 import com.example.makersprojectbackend.service.UserService;
+import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
@@ -18,18 +19,12 @@ import java.time.LocalDateTime;
 import java.util.List;
 
 @Service
+@RequiredArgsConstructor
 public class UserServiceImpl implements UserService {
     private final UserRepository userRepository;
     private final CourseRepository courseRepository;
     private final FeedbackRepository feedbackRepository;
     private final ApplicationRepository applicationRepository;
-
-    public UserServiceImpl(UserRepository userRepository, CourseRepository courseRepository, FeedbackRepository feedbackRepository, ApplicationRepository applicationRepository) {
-        this.userRepository = userRepository;
-        this.courseRepository = courseRepository;
-        this.feedbackRepository = feedbackRepository;
-        this.applicationRepository = applicationRepository;
-    }
 
     @Override
     public User create(User user) {

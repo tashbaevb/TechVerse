@@ -1,10 +1,8 @@
 package com.example.makersprojectbackend.entity.forms;
 
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
+import lombok.experimental.FieldDefaults;
 
 import java.time.LocalDateTime;
 
@@ -14,17 +12,19 @@ import java.time.LocalDateTime;
 @NoArgsConstructor
 @Getter
 @Setter
+@FieldDefaults(level = AccessLevel.PRIVATE)
+@Builder
 public class Application {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    Long id;
 
-    private String fullName;
+    String fullName, phoneNumber, courseName;
 
-    private String phoneNumber;
+//    private String phoneNumber;
+//
+//    private String courseName; //имя курса куда хочет записаться заявитель
 
-    private String courseName; //имя курса куда хочет записаться заявитель
-
-    private LocalDateTime dateOfCreation;
+    LocalDateTime dateOfCreation;
 }

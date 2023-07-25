@@ -4,19 +4,15 @@ import com.example.makersprojectbackend.entity.test.Question;
 import com.example.makersprojectbackend.entity.test.Quiz;
 import com.example.makersprojectbackend.repository.test.QuizRepository;
 import com.example.makersprojectbackend.service.QuizService;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 
 @Service
+@RequiredArgsConstructor
 public class QuizServiceImpl implements QuizService {
     private final QuizRepository quizRepository;
-
-
-    public QuizServiceImpl(QuizRepository quizRepository) {
-        this.quizRepository = quizRepository;
-
-    }
 
     @Override
     public Quiz create(Quiz quiz) {
