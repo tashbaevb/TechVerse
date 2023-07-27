@@ -7,6 +7,6 @@ import lombok.experimental.FieldDefaults;
 @Data
 @FieldDefaults(level = AccessLevel.PRIVATE)
 public class SchoolInfoDto {
-    int schoolNumber;
+    Integer schoolNumber;
     String schoolName, grade, location;
 }

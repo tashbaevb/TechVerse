@@ -21,7 +21,6 @@ public class PaidCourse {
     double duration, fee;
     int numOfLectures;
     char data;
-//    boolean favorite;
 
     @ManyToOne
     @JoinColumn(name = "enroll_id")

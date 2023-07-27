@@ -17,6 +17,8 @@ import java.util.function.Function;
 @Component
 public class JwtUtil {
     private static final String SECRET = "a512b5ae24053250934237d6924a735891b5c7f7af009f7bd2023838fca11475";
+    private static final long ACCESS_TOKEN_EXPIRATION_TIME = 30 * 60 * 100; // Время жизни Access токена (30 минут)
+    private static final long REFRESH_TOKEN_EXPIRATION_TIME = 30 * 24 * 60 * 60 * 1000; // Время жизни Refresh токена (30 дней)
 
     private Key getSignKey() {
         byte[] keyBytes = Decoders.BASE64.decode(SECRET);
@@ -56,16 +58,26 @@ public class JwtUtil {
 
     public String generateToken(String username) {
         Map<String, Object> claims = new HashMap<>();
-        return createToken(claims, username);
+        return createToken(claims, username, new Date(System.currentTimeMillis() + ACCESS_TOKEN_EXPIRATION_TIME));
     }
 
-    private String createToken(Map<String, Object> claims, String username) {
+    public String generateRefreshToken(String username) {
+        Map<String, Object> claims = new HashMap<>();
+        return createToken(claims, username, new Date(System.currentTimeMillis() + REFRESH_TOKEN_EXPIRATION_TIME));
+    }
+
+    private String createToken(Map<String, Object> claims, String username, Date expiration) {
         return Jwts.builder()
                 .setClaims(claims)
                 .setSubject(username)
                 .setIssuedAt(new Date(System.currentTimeMillis()))
-                .setExpiration(new Date(System.currentTimeMillis() + 1000 * 60 * 30))
+                .setExpiration(expiration)
                 .signWith(getSignKey(), SignatureAlgorithm.HS256)
                 .compact();
+    }
+
+    public Boolean validateRefreshToken(String refreshToken, UserDetails userDetails) {
+        final String username = extractUsername(refreshToken);
+        return (username.equals(userDetails.getUsername()) && !isTokenExpired(refreshToken));
     }
 }

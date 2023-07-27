@@ -1,9 +1,7 @@
 package com.example.makersprojectbackend.entity;
 
-import com.example.makersprojectbackend.entity.SchoolInfo;
 import com.example.makersprojectbackend.enums.UserRole;
 import jakarta.persistence.*;
-import jakarta.validation.constraints.NotNull;
 import lombok.*;
 import lombok.experimental.FieldDefaults;
 
@@ -25,10 +23,19 @@ public class User {
     String email, password, nameSurname; // Нужно добавить @Email, @Size для password
     @OneToOne
     SchoolInfo schoolInfo;
+
     @Enumerated(EnumType.STRING)
     UserRole userRole;
+
     @Column(name = "reset_token")
     String resetToken;
+
     @Column(name = "reset_token_expire_time")
     LocalDateTime resetTokenExpireTime;
+
+    @Column(name = "refresh_token")
+    private String refreshToken;
+
+    @Column(name = "refresh_token_expire_time")
+    private LocalDateTime refreshTokenExpireTime;
 }

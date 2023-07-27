@@ -3,6 +3,7 @@ package com.example.makersprojectbackend.controller;
 import com.example.makersprojectbackend.entity.User;
 import com.example.makersprojectbackend.security.JwtUtil;
 import com.example.makersprojectbackend.service.AuthService;
+
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -10,6 +11,9 @@ import org.springframework.security.authentication.UsernamePasswordAuthenticatio
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.HashMap;
+import java.util.Map;
 
 @RestController
 @RequiredArgsConstructor
@@ -29,11 +33,17 @@ public class AuthController {
     }
 
     @PostMapping("/auth")
-    public String authenticate(@RequestBody User authRequest) {
-        Authentication authentication = authenticationManager.authenticate(new UsernamePasswordAuthenticationToken
-                (authRequest.getEmail(), authRequest.getPassword()));
+    public ResponseEntity<Map<String, String>> authenticate(@RequestBody User authRequest) {
+        Authentication authentication = authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(authRequest.getEmail(), authRequest.getPassword()));
         if (authentication.isAuthenticated()) {
-            return jwtUtil.generateToken(authRequest.getEmail());
+            String accessToken = jwtUtil.generateToken(authRequest.getEmail());
+            String refreshToken = jwtUtil.generateRefreshToken(authRequest.getEmail());
+
+            Map<String, String> tokens = new HashMap<>();
+            tokens.put("access_token", accessToken);
+            tokens.put("refresh_token", refreshToken);
+
+            return ResponseEntity.ok(tokens);
         } else {
             throw new UsernameNotFoundException("Неверная почта или пароль");
         }

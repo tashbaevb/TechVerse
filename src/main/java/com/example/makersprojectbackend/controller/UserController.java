@@ -8,6 +8,7 @@ import com.example.makersprojectbackend.mappers.UserMapper;
 import com.example.makersprojectbackend.repository.UserRepository;
 import com.example.makersprojectbackend.service.UserService;
 import com.example.makersprojectbackend.service.impl.UserServiceImpl;
+
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
@@ -30,6 +31,7 @@ public class UserController {
     public UserDto createUser(@RequestBody User userDetails) {
         return userMapper.convertToDto(userService.create(userDetails));
     }
+
     @GetMapping("/personal-info")
     public @ResponseBody UserDto showPersonalInfo() {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
@@ -37,10 +39,12 @@ public class UserController {
         Optional<User> user = userRepository.findByEmail(userEmail);
         return userMapper.convertToDtoOpt(user);
     }
+
     @GetMapping("/get/{userId}")
     public UserDto getUserById(@PathVariable Long userId) {
         return userMapper.convertToDto(userService.getById(userId));
     }
+
     @PutMapping("/info/update")
     public UserDto update(@RequestBody User user) {
         return userMapper.convertToDto(userService.update(user));
@@ -54,7 +58,6 @@ public class UserController {
     public void delete(@PathVariable Long userId) {
         userService.delete(userId);
     }
-
 
     @PutMapping("/sub/{courseId}") //записаться на курс
     public void submit(@PathVariable Long courseId, @RequestBody Application application) throws Exception {
