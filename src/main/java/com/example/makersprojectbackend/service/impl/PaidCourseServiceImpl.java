@@ -16,4 +16,9 @@ public class PaidCourseServiceImpl implements PaidCourseService {
     public List<PaidCourse> getAllPaidCourses(){
         return paidCourseRepository.findAll();
     }
+
+    @Override
+    public PaidCourse create(PaidCourse paidCourse){
+        return paidCourseRepository.save(paidCourse);
+    }
 }

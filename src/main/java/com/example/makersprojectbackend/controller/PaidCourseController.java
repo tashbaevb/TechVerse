@@ -23,14 +23,14 @@ public class PaidCourseController {
         return paidCourseService.getAllPaidCourses();
     }
 
-    @GetMapping("/enrolls")
-    public List<Enroll> getAllEnrolls() {
-        return enrollService.getAllEnrolls();
-    }
+
 
     @PostMapping("/enrolls")
     public ResponseEntity<String> enrollPaidCourse(@RequestBody Enroll enroll) {
         enrollService.enrollPaidCourse(enroll);
         return ResponseEntity.status(HttpStatus.CREATED).body("Вы успешно записались на платный курс.");
     }
+
+//    @PostMapping("/create")
+//    public PaidCourseService
 }

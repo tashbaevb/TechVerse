@@ -13,13 +13,13 @@ public interface UserService {
 
     User getById(Long id);
 
+    User update(User newUser);
+
     List<User> getAll();
 
-    User update(User userDetails);
-
     void delete(Long id);
-
     void submit(Long courseId, Application application)throws Exception;
 
     ResponseEntity<String> makeFeedback(Feedback feedback);
+
 }

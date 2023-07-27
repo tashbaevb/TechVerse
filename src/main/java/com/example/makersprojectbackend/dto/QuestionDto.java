@@ -1,13 +1,14 @@
 package com.example.makersprojectbackend.dto;
 
+import lombok.AccessLevel;
 import lombok.Data;
+import lombok.experimental.FieldDefaults;
 
 import java.util.Map;
 
 @Data
+@FieldDefaults(level = AccessLevel.PRIVATE)
 public class QuestionDto {
-    private String question; //содержимое вопроса
-
-    private Map<Integer, AnswerDto> answers;
-
+    String question; //содержимое вопроса
+    Map<Integer, AnswerDto> answers;
 }

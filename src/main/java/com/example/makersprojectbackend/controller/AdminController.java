@@ -1,16 +1,30 @@
 package com.example.makersprojectbackend.controller;
 
+import com.example.makersprojectbackend.dto.CourseCreationRequest;
 import com.example.makersprojectbackend.dto.CourseDto;
 import com.example.makersprojectbackend.entity.Course;
 import com.example.makersprojectbackend.entity.forms.Application;
 import com.example.makersprojectbackend.entity.forms.Feedback;
 import com.example.makersprojectbackend.mappers.CourseMapper;
+import com.example.makersprojectbackend.models.Enroll;
+import com.example.makersprojectbackend.service.EnrollService;
+import com.example.makersprojectbackend.service.ImageService;
 import com.example.makersprojectbackend.service.impl.ApplicationServiceImpl;
 import com.example.makersprojectbackend.service.impl.CourseServiceImpl;
 import com.example.makersprojectbackend.service.impl.FeedbackServiceImpl;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.core.io.Resource;
+import org.springframework.core.io.ByteArrayResource;
+import org.springframework.http.HttpHeaders;
+import org.springframework.web.multipart.MultipartFile;
+
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 
 import java.util.List;
 
@@ -22,11 +36,33 @@ public class AdminController {
     private final CourseMapper courseMapper;
     private final ApplicationServiceImpl applicationServiceImpl;
     private final FeedbackServiceImpl feedbackServiceImpl;
+    private final ImageService imageService;
+    private final EnrollService enrollService;
+    @Value("${upload.folder}")
+    String uploadPath;
+
+    @GetMapping("/getImage")
+    public ResponseEntity<Resource> getImage(@RequestParam("fileName") String fileName) throws IOException {
+        Path path = Paths.get(uploadPath + fileName);
+        ByteArrayResource resource = new ByteArrayResource(Files.readAllBytes(path));
+        HttpHeaders headers = new HttpHeaders();
+        headers.add(HttpHeaders.CONTENT_TYPE, Files.probeContentType(path));
+        headers.add(HttpHeaders.CONTENT_DISPOSITION, "inline;filename=" + fileName);
+        headers.add(HttpHeaders.CACHE_CONTROL, "max-age=3600");
+        return ResponseEntity.ok()
+                .headers(headers)
+                .contentLength(Files.size(path))
+                .body(resource);
+    }
 
     // СПИСКИ
-    @GetMapping("/get/apps")
-    public List<Application> getApplications() {
-        return applicationServiceImpl.getAll();
+//    @GetMapping("/get/apps")
+//    public List<Application> getApplications() {
+//        return applicationServiceImpl.getAll();
+//    }
+    @GetMapping("/enrolls")
+    public List<Enroll> getAllEnrolls() {
+        return enrollService.getAllEnrolls();
     }
 
     @GetMapping("/download/apps")
@@ -45,8 +81,22 @@ public class AdminController {
     }
 
     //  Бесплатные КУРСЫ
+//    @PostMapping("/course/create")
+//    public CourseDto createCourse(
+//            @RequestBody Course course,
+//            @RequestBody MultipartFile image)throws IOException {
+//        String imageUrl = imageService.saveToTheFileSystem(image);
+//        course.setPhotoUrl(imageUrl);
+//        return courseMapper.convertToDTO(courseServiceImpl.create(course));
+//    }
     @PostMapping("/course/create")
-    public CourseDto createCourse(@RequestBody Course course) {
+    public CourseDto createCourse(@RequestBody CourseCreationRequest request) throws IOException {
+        MultipartFile image = request.getImage();
+        String imageUrl = imageService.saveToTheFileSystem(image);
+
+        Course course = request.getCourse();
+        course.setPhotoUrl(imageUrl);
+
         return courseMapper.convertToDTO(courseServiceImpl.create(course));
     }
 

@@ -1,6 +1,7 @@
 package com.example.makersprojectbackend.service.impl;
 
 import com.example.makersprojectbackend.entity.Course;
+import com.example.makersprojectbackend.entity.SchoolInfo;
 import com.example.makersprojectbackend.entity.User;
 import com.example.makersprojectbackend.entity.forms.Application;
 import com.example.makersprojectbackend.entity.forms.Feedback;
@@ -13,7 +14,9 @@ import com.example.makersprojectbackend.service.UserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+
 
 import java.time.LocalDateTime;
 import java.util.List;
@@ -22,41 +25,10 @@ import java.util.List;
 @RequiredArgsConstructor
 public class UserServiceImpl implements UserService {
     private final UserRepository userRepository;
+    private final PasswordEncoder passwordEncoder;
     private final CourseRepository courseRepository;
     private final FeedbackRepository feedbackRepository;
     private final ApplicationRepository applicationRepository;
-
-    @Override
-    public User create(User user) {
-        return userRepository.save(user);
-    }
-
-    @Override
-    public User getById(Long id) {
-        return userRepository.findById(id).orElseThrow();
-    }
-
-    @Override
-    public List<User> getAll() {
-        return userRepository.findAll();
-    }
-
-    @Override
-    public User update(User userDetails) {
-        User user = getById(userDetails.getId());
-        user.setFullName(userDetails.getFullName());
-        user.setEmail(userDetails.getEmail());
-        user.setPassword(userDetails.getPassword());
-        user.setLink(userDetails.getLink());
-        user.setSchool(userDetails.getSchool());
-        user.setUsername(userDetails.getUsername());
-        return userRepository.save(user);
-    }
-
-    @Override
-    public void delete(Long id) {
-        userRepository.deleteById(id);
-    }
 
     @Override
     public void submit(Long courseId, Application application) throws Exception { //подать заявку на платный курс
@@ -78,4 +50,40 @@ public class UserServiceImpl implements UserService {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Ошибка при записи обращения");
         }
     }
+
+    @Override
+    public User create(User user) {
+        user.setPassword(passwordEncoder.encode(user.getPassword()));
+        return userRepository.save(user);
+    }
+
+    @Override
+    public User getById(Long id) {
+        return userRepository.findById(id).orElseThrow();
+    }
+
+    @Override
+    public List<User> getAll() {
+        return userRepository.findAll();
+    }
+
+    @Override
+    public User update(User newUser) {
+        User oldUser = getById(newUser.getId());
+        oldUser.setEmail(newUser.getEmail());
+        oldUser.setNameSurname(newUser.getNameSurname());
+        SchoolInfo updatedInfo = newUser.getSchoolInfo();
+        SchoolInfo existingInfo = oldUser.getSchoolInfo();
+        existingInfo.setSchoolNumber(updatedInfo.getSchoolNumber());
+        existingInfo.setSchoolName(updatedInfo.getSchoolName());
+        existingInfo.setGrade(updatedInfo.getGrade());
+        existingInfo.setLocation(updatedInfo.getLocation());
+        return userRepository.save(oldUser);
+    }
+
+    @Override
+    public void delete(Long id) {
+        userRepository.deleteById(id);
+    }
+
 }

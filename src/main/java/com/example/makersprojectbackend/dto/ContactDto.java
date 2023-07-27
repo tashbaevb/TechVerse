@@ -6,7 +6,6 @@ import lombok.experimental.FieldDefaults;
 
 @Data
 @FieldDefaults(level = AccessLevel.PRIVATE)
-public class CommentDto {
-    String text;
-    UserDto author;
+public class ContactDto {
+    String name, surname, phoneNumber;
 }

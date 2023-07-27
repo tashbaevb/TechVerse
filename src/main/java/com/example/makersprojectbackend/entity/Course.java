@@ -19,8 +19,7 @@ public class Course {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     Long id;
-    String name;
-    String description;
+    String name, description;
     CourseType courseType; //бесплатный/платный
 
     @OneToMany(mappedBy = "course")
@@ -31,4 +30,11 @@ public class Course {
 
     Double duration; //продолжительность курса в часах
     Integer lectureQuantity; //кол-во видео лекций
+    String photoUrl;
+    public String getPhotoUrl() {
+        return photoUrl;
+    }
+    public void setPhotoUrl(String photoUrl) {
+        this.photoUrl = photoUrl;
+    }
 }

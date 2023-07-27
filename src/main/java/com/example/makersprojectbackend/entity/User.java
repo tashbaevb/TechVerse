@@ -1,12 +1,13 @@
 package com.example.makersprojectbackend.entity;
 
+import com.example.makersprojectbackend.entity.SchoolInfo;
 import com.example.makersprojectbackend.enums.UserRole;
 import jakarta.persistence.*;
-import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotNull;
-import jakarta.validation.constraints.Size;
 import lombok.*;
 import lombok.experimental.FieldDefaults;
+
+import java.time.LocalDateTime;
 
 @Entity
 @Table(name = "users")
@@ -15,34 +16,19 @@ import lombok.experimental.FieldDefaults;
 @Getter
 @Setter
 @FieldDefaults(level = AccessLevel.PRIVATE)
-@Builder
 public class User {
+
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "user_seq")
+    @SequenceGenerator(name = "user_seq", sequenceName = "user_seq", allocationSize = 1)
     Long id;
-
-    @NotNull
-    String fullName;
-
-    @Email
-    @NotNull
-    String email;
-
-    @NotNull
-    @Size(min = 6, max = 16)
-    String password;
-
-    String link; //ссылка к фотке
-
-    @NotNull
-    String username, school;
-//
-//    @NotNull
-//    String school;
-
-    @NotNull
-    UserRole userRole = UserRole.USER;
-
-    @NotNull
-    Boolean activated = false; //подтвердил почту иль нет, по умолчанию всегда нет
+    String email, password, nameSurname; // Нужно добавить @Email, @Size для password
+    @OneToOne
+    SchoolInfo schoolInfo;
+    @Enumerated(EnumType.STRING)
+    UserRole userRole;
+    @Column(name = "reset_token")
+    String resetToken;
+    @Column(name = "reset_token_expire_time")
+    LocalDateTime resetTokenExpireTime;
 }

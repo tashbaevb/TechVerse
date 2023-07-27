@@ -6,4 +6,6 @@ import java.util.List;
 
 public interface PaidCourseService {
     List<PaidCourse> getAllPaidCourses();
+    PaidCourse create(PaidCourse paidCourse);
+
 }
