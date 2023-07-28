@@ -30,7 +30,4 @@ public class PaidCourseController {
         enrollService.enrollPaidCourse(enroll);
         return ResponseEntity.status(HttpStatus.CREATED).body("Вы успешно записались на платный курс.");
     }
-
-//    @PostMapping("/create")
-//    public PaidCourseService
 }
