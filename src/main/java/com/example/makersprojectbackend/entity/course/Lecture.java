@@ -1,25 +1,24 @@
-package com.example.makersprojectbackend.entity.forms;
+package com.example.makersprojectbackend.entity.course;
 
 import jakarta.persistence.*;
 import lombok.*;
 import lombok.experimental.FieldDefaults;
 
-import java.time.LocalDateTime;
-
 @Entity
-@Table(name = "feedbacks")
+@Table(name = "lectures")
 @AllArgsConstructor
 @NoArgsConstructor
 @Getter
 @Setter
 @FieldDefaults(level = AccessLevel.PRIVATE)
-public class Feedback {
-
+@Builder
+public class Lecture {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     Long id;
+    String title;
+    String text;
 
-    String fullName, phoneNumber;
-    //    private String phoneNumber;
-    LocalDateTime dateOfCreation;
+    @ManyToOne
+    Course course;
 }

@@ -1,9 +1,7 @@
 package com.example.makersprojectbackend.entity;
 
-import com.example.makersprojectbackend.entity.SchoolInfo;
 import com.example.makersprojectbackend.enums.UserRole;
 import jakarta.persistence.*;
-import jakarta.validation.constraints.NotNull;
 import lombok.*;
 import lombok.experimental.FieldDefaults;
 

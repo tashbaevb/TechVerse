@@ -35,8 +35,7 @@ public class WebSecurityConfig {
         return http
                 .csrf(AbstractHttpConfigurer::disable)
                 .authorizeHttpRequests((auth) -> auth
-                        .requestMatchers("/auth", "/register", "/admin/**", "/paidcourses/**",
-                                "/comment/**").permitAll()
+                        .requestMatchers("/**").permitAll()
                         .requestMatchers("/user/**").hasAuthority("USER")
                         .requestMatchers("/contact/**").hasAuthority("ADMIN")
                         .anyRequest().authenticated()
@@ -47,6 +46,7 @@ public class WebSecurityConfig {
                 .addFilterBefore(jwtFilter, UsernamePasswordAuthenticationFilter.class)
                 .build();
     }
+
     @Bean
     public AuthenticationProvider authenticationProvider() {
         DaoAuthenticationProvider authenticationProvider = new DaoAuthenticationProvider();
@@ -54,6 +54,7 @@ public class WebSecurityConfig {
         authenticationProvider.setPasswordEncoder(passwordEncoder);
         return authenticationProvider;
     }
+
     @Bean
     public AuthenticationManager authenticationManager(AuthenticationConfiguration config) throws Exception {
         return config.getAuthenticationManager();

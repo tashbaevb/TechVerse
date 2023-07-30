@@ -7,19 +7,24 @@ import lombok.experimental.FieldDefaults;
 import java.time.LocalDateTime;
 
 @Entity
-@Table(name = "feedbacks")
+@Table(name = "applications")
 @AllArgsConstructor
 @NoArgsConstructor
 @Getter
 @Setter
 @FieldDefaults(level = AccessLevel.PRIVATE)
-public class Feedback {
+@Builder
+public class Enroll {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     Long id;
 
-    String fullName, phoneNumber;
-    //    private String phoneNumber;
+    String fullName, phoneNumber, courseName;
+
+//    private String phoneNumber;
+//
+//    private String courseName; //имя курса куда хочет записаться заявитель
+
     LocalDateTime dateOfCreation;
 }

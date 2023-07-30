@@ -1,21 +1,14 @@
 package com.example.makersprojectbackend.mappers;
 
 import com.example.makersprojectbackend.dto.UserDto;
-//<<<<<<< HEAD
-//=======
-//import com.example.makersprojectbackend.entity.User;
 import com.example.makersprojectbackend.entity.User;
 import lombok.RequiredArgsConstructor;
-
-//>>>>>>> adelina
 import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Component;
 
-import java.util.Optional;
-
-
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 //<<<<<<< HEAD
 
 @Component

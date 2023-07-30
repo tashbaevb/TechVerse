@@ -26,6 +26,7 @@ public class SchoolInfoMapper {
         }
         return schoolInfoDtoList;
     }
+
     public SchoolInfo convertToEntity(SchoolInfoDto schoolInfoDto) {
         return mapper.map(schoolInfoDto, SchoolInfo.class);
     }
