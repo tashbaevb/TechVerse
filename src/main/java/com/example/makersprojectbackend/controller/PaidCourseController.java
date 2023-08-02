@@ -23,8 +23,6 @@ public class PaidCourseController {
         return paidCourseService.getAllPaidCourses();
     }
 
-
-
     @PostMapping("/enrolls")
     public ResponseEntity<String> enrollPaidCourse(@RequestBody Enroll enroll) {
         enrollService.enrollPaidCourse(enroll);

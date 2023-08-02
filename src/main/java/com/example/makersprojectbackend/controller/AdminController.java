@@ -1,9 +1,7 @@
 package com.example.makersprojectbackend.controller;
 
-import com.example.makersprojectbackend.dto.CourseCreationRequest;
 import com.example.makersprojectbackend.dto.CourseDto;
 import com.example.makersprojectbackend.entity.Course;
-import com.example.makersprojectbackend.entity.forms.Application;
 import com.example.makersprojectbackend.entity.forms.Feedback;
 import com.example.makersprojectbackend.mappers.CourseMapper;
 import com.example.makersprojectbackend.models.Enroll;
@@ -19,7 +17,6 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.core.io.Resource;
 import org.springframework.core.io.ByteArrayResource;
 import org.springframework.http.HttpHeaders;
-import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
 import java.nio.file.Files;
@@ -90,13 +87,7 @@ public class AdminController {
 //        return courseMapper.convertToDTO(courseServiceImpl.create(course));
 //    }
     @PostMapping("/course/create")
-    public CourseDto createCourse(@RequestBody CourseCreationRequest request) throws IOException {
-        MultipartFile image = request.getImage();
-        String imageUrl = imageService.saveToTheFileSystem(image);
-
-        Course course = request.getCourse();
-        course.setPhotoUrl(imageUrl);
-
+    public CourseDto createCourse(Course course) {
         return courseMapper.convertToDTO(courseServiceImpl.create(course));
     }
 

@@ -30,11 +30,4 @@ public class Course {
 
     Double duration; //продолжительность курса в часах
     Integer lectureQuantity; //кол-во видео лекций
-    String photoUrl;
-    public String getPhotoUrl() {
-        return photoUrl;
-    }
-    public void setPhotoUrl(String photoUrl) {
-        this.photoUrl = photoUrl;
-    }
 }
