@@ -1,8 +1,11 @@
 package com.example.makersprojectbackend.entity;
 
+import com.example.makersprojectbackend.entity.course.Course;
 import jakarta.persistence.*;
 import lombok.*;
 import lombok.experimental.FieldDefaults;
+
+import java.time.LocalDateTime;
 
 @Entity
 @Table(name = "comments")
@@ -13,10 +16,23 @@ import lombok.experimental.FieldDefaults;
 @FieldDefaults(level = AccessLevel.PRIVATE)
 @Builder
 public class Comment {
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     Long id;
-    String text; //содержимое коммента
+
+    @Column(nullable = false)
+    String text;
+
+
     @ManyToOne
-    User author;
+    @JoinColumn(name = "course_id", nullable = false)
+    Course course;
+
+    @ManyToOne
+    @JoinColumn(name = "user_id", nullable = false)
+    User user;
+
+    @Column(nullable = false)
+    LocalDateTime timestamp;
 }

@@ -1,7 +1,7 @@
 package com.example.makersprojectbackend.service;
 
 import com.example.makersprojectbackend.entity.User;
-import com.example.makersprojectbackend.entity.forms.Application;
+import com.example.makersprojectbackend.entity.forms.Enroll;
 import com.example.makersprojectbackend.entity.forms.Feedback;
 import org.springframework.http.ResponseEntity;
 
@@ -18,7 +18,8 @@ public interface UserService {
     List<User> getAll();
 
     void delete(Long id);
-    void submit(Long courseId, Application application)throws Exception;
+
+    void enrollPaidCourse(Long courseId, Enroll enroll) throws Exception;
 
     ResponseEntity<String> makeFeedback(Feedback feedback);
 

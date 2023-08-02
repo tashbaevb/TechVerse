@@ -1,7 +1,7 @@
 package com.example.makersprojectbackend.enums;
 
 public enum UserRole {
-//<<<<<<< HEAD
+    //<<<<<<< HEAD
     USER,
     ADMIN
 //=======

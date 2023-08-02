@@ -2,14 +2,25 @@ package com.example.makersprojectbackend.mappers;
 
 import com.example.makersprojectbackend.dto.UserDto;
 import com.example.makersprojectbackend.entity.User;
+//<<<<<<< HEAD
 
+//=======
+import lombok.RequiredArgsConstructor;
+//>>>>>>> khashem
 import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Component;
 import lombok.RequiredArgsConstructor;
 
+//<<<<<<< HEAD
 import java.util.Optional;
 import java.util.ArrayList;
 import java.util.List;
+//=======
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Optional;
+//<<<<<<< HEAD
+//>>>>>>> khashem
 
 @Component
 @RequiredArgsConstructor

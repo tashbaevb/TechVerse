@@ -6,15 +6,17 @@ import java.util.List;
 
 public interface CommentService {
 
-    Comment create(Comment comment);
+    Comment create(Comment comment, Long courseId, Long userId);
 
     Comment getById(Long id);
 
     List<Comment> getAll();
 
-    Comment update(Comment commentDetails);
+    List<Comment> getCommentsByUserId(Long userId);
+
+    List<Comment> getCommentsByCourseId(Long articleId);
+
+    Comment update(Comment comment);
 
     void delete(Long id);
-
-
 }

@@ -1,34 +1,41 @@
 package com.example.makersprojectbackend.controller;
 
-import com.example.makersprojectbackend.dto.QuestionDto;
-import com.example.makersprojectbackend.mappers.QuestionMapper;
-import com.example.makersprojectbackend.service.impl.QuizServiceImpl;
+import com.example.makersprojectbackend.dto.quiz.QuestionDto;
+import com.example.makersprojectbackend.mappers.quiz.QuestionMapper;
+import com.example.makersprojectbackend.service.quiz.QuizService;
 import lombok.RequiredArgsConstructor;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 
 @RestController
 @RequestMapping("/quiz")
 @RequiredArgsConstructor
 public class QuizController {
-    private final QuizServiceImpl quizServiceImpl;
+
+    private final QuizService quizService;
     private final QuestionMapper questionMapper;
+
 
     @GetMapping("/{testId}")
     public QuestionDto start(@PathVariable Long testId) {
-        return questionMapper.convertToDto(quizServiceImpl.startTest(testId));
+        return questionMapper.convertToDto(quizService.startTest(testId));
     }
 
-    @GetMapping("/{testId}/{currentQuestionIndex}/+")
+
+    @GetMapping("/{testId}/{currentQuestionIndex}/next")
     public QuestionDto next(@PathVariable Long testId, @PathVariable Integer currentQuestionIndex) {
-        return questionMapper.convertToDto(quizServiceImpl.nextQuestion(testId, currentQuestionIndex));
+        return questionMapper.convertToDto(quizService.nextQuestion(testId, currentQuestionIndex));
     }
 
-    @GetMapping("/{testId}/{currentQuestionIndex}/-")
+
+    @GetMapping("/{testId}/{currentQuestionIndex}/prev")
     public QuestionDto prev(@PathVariable Long testId, @PathVariable Integer currentQuestionIndex) {
-        return questionMapper.convertToDto(quizServiceImpl.previousQuestion(testId, currentQuestionIndex));
+        return questionMapper.convertToDto(quizService.previousQuestion(testId, currentQuestionIndex));
+    }
+
+
+    @GetMapping("/res/{quizId}")
+    public String showResults(@PathVariable Long quizId, @RequestParam Long[] answersIds) {
+        return quizService.showResults(quizId, answersIds);
     }
 }

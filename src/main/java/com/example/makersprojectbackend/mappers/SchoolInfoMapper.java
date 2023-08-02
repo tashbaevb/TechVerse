@@ -18,7 +18,6 @@ public class SchoolInfoMapper {
         return mapper.map(schoolInfo, SchoolInfoDto.class);
     }
 
-
     public List<SchoolInfoDto> convertToDtoList(List<SchoolInfo> schoolInfo) {
         List<SchoolInfoDto> schoolInfoDtoList = new ArrayList<>();
         for (SchoolInfo s : schoolInfo) {
@@ -26,6 +25,7 @@ public class SchoolInfoMapper {
         }
         return schoolInfoDtoList;
     }
+
     public SchoolInfo convertToEntity(SchoolInfoDto schoolInfoDto) {
         return mapper.map(schoolInfoDto, SchoolInfo.class);
     }
