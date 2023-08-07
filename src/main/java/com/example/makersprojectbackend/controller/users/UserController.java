@@ -1,17 +1,15 @@
 package com.example.makersprojectbackend.controller.users;
 
 import com.example.makersprojectbackend.dto.UserDto;
+import com.example.makersprojectbackend.dto.course.FreeCourseDto;
 import com.example.makersprojectbackend.entity.User;
 import com.example.makersprojectbackend.entity.forms.Enroll;
 import com.example.makersprojectbackend.entity.forms.Feedback;
+import com.example.makersprojectbackend.mappers.CourseMapper;
 import com.example.makersprojectbackend.mappers.UserMapper;
 import com.example.makersprojectbackend.repository.UserRepository;
 import com.example.makersprojectbackend.service.UserService;
-//<<<<<<< HEAD:src/main/java/com/example/makersprojectbackend/controller/UserController.java
-import com.example.makersprojectbackend.service.impl.UserServiceImpl;
-
-//=======
-//>>>>>>> khashem:src/main/java/com/example/makersprojectbackend/controller/users/UserController.java
+import com.example.makersprojectbackend.service.course.CourseService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
@@ -25,18 +23,13 @@ import java.util.Optional;
 @RequestMapping("/user")
 @RequiredArgsConstructor
 public class UserController {
-
+    private final CourseService courseService;
+    private final CourseMapper courseMapper;
     private final UserMapper userMapper;
     private final UserRepository userRepository;
     private final UserService userService;
 
-
-    @PostMapping("/create")
-    public UserDto createUser(@RequestBody User userDetails) {
-        return userMapper.convertToDto(userService.create(userDetails));
-    }
-
-
+    // ЛИЧНЫЙ КАБИНЕТ
     @GetMapping("/personal-info")
     public @ResponseBody UserDto showPersonalInfo() {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
@@ -45,39 +38,33 @@ public class UserController {
         return userMapper.convertToDtoOpt(user);
     }
 
-
-    @GetMapping("/get/{userId}")
-    public UserDto getUserById(@PathVariable Long userId) {
-        return userMapper.convertToDto(userService.getById(userId));
-    }
-
-
-    @PutMapping("/info/update")
-    public UserDto update(@RequestBody User user) {
+    @PutMapping("/user/update/")
+    public UserDto update(@RequestBody UserDto dto) {
+        User user = userMapper.convertToEntity(dto);
         return userMapper.convertToDto(userService.update(user));
     }
 
 
-    @GetMapping("/get/all")
-    public List<UserDto> getAllUsers() {
-        return userMapper.convertToDtoList(userService.getAll());
-    }
-
-
-    @DeleteMapping("/delete/{userId}")
-    public void delete(@PathVariable Long userId) {
-        userService.delete(userId);
-    }
-
-
+    // ЗАЯВКИ И ЗАПИСЬ
     @PutMapping("/sub/{courseId}") //записаться на курс
-    public void enrollPaidCourse(@PathVariable Long courseId, @RequestBody Enroll enroll) throws Exception {
+    public void subscribe(@PathVariable Long courseId, @RequestBody Enroll enroll) throws Exception {
         userService.enrollPaidCourse(courseId, enroll);
     }
-
 
     @PutMapping("/feedback") //связаться
     public ResponseEntity<String> feedback(@RequestBody Feedback feedback) {
         return userService.makeFeedback(feedback);
+    }
+
+    // COURSE
+    @GetMapping("/course/get/{id}")
+    public FreeCourseDto getCourseById(@PathVariable Long id) {
+        return courseMapper.convertToFreeCourseDto(courseService.getById(id));
+    }
+
+
+    @GetMapping("/course/get/all")
+    public List<FreeCourseDto> getAllCourses() {
+        return courseMapper.convertToFreeCourseDtoList(courseService.getAll());
     }
 }
