@@ -31,6 +31,15 @@ public class CourseMapper {
         return mapper.map(course, PaidCourseDto.class);
     }
 
+
+    public Course convertToEntity(FreeCourseDto course) {
+        return mapper.map(course, Course.class);
+    }
+
+    public Course convertToEntity(PaidCourseDto course) {
+        return mapper.map(course, Course.class);
+    }
+
     public List<PaidCourseDto> convertToPaidCourseDtoList(List<Course> courses) {
         List<PaidCourseDto> paidCourseDtoList = new ArrayList<>();
         for (Course c : courses) {

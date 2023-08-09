@@ -1,11 +1,15 @@
 package com.example.makersprojectbackend.controller.users;
 
+import com.example.makersprojectbackend.dto.UserDto;
 import com.example.makersprojectbackend.dto.course.FreeCourseDto;
+import com.example.makersprojectbackend.dto.course.PaidCourseDto;
 import com.example.makersprojectbackend.entity.course.Course;
 import com.example.makersprojectbackend.entity.forms.Enroll;
 import com.example.makersprojectbackend.entity.forms.Feedback;
 import com.example.makersprojectbackend.mappers.CourseMapper;
+import com.example.makersprojectbackend.mappers.UserMapper;
 import com.example.makersprojectbackend.service.ImageService;
+import com.example.makersprojectbackend.service.UserService;
 import com.example.makersprojectbackend.service.course.CourseService;
 import com.example.makersprojectbackend.service.forms.EnrollService;
 import com.example.makersprojectbackend.service.impl.forms.EnrollServiceImpl;
@@ -37,10 +41,30 @@ public class AdminController {
     private final FeedbackServiceImpl feedbackServiceImpl;
     private final ImageService imageService;
     private final EnrollService enrollService;
+    private final UserService userService;
+    private final UserMapper userMapper;
+
 
     @Value("${upload.folder}")
     String uploadPath;
 
+
+
+    //USER
+    @GetMapping("/user/get/{userId}")
+    public UserDto getUserById(@PathVariable Long userId) {
+        return userMapper.convertToDto(userService.getById(userId));
+    }
+
+    @GetMapping("/user/get/all")
+    public List<UserDto> getAllUsers() {
+        return userMapper.convertToDtoList(userService.getAll());
+    }
+
+    @DeleteMapping("/user/delete/{userId}")
+    public void deleteUser(@PathVariable Long userId) {
+        userService.delete(userId);
+    }
 
     @GetMapping("/getImage")
     public ResponseEntity<Resource> getImage(@RequestParam("fileName") String fileName) throws IOException {
@@ -62,18 +86,15 @@ public class AdminController {
         return enrollService.getAll();
     }
 
-
     @GetMapping("/enrolls/download")
     public ResponseEntity<byte[]> downloadApplicationsList() {
         return enrollServiceImpl.exportToExcel(enrollServiceImpl.getAll());
     }
 
-
     @GetMapping("/get/feedbacks")
     public List<Feedback> getFeedbacks() {
         return feedbackServiceImpl.getAll();
     }
-
 
     @GetMapping("/feedbacks/download")
     public ResponseEntity<byte[]> downloadFeedbacksList() {
@@ -82,11 +103,11 @@ public class AdminController {
 
 
     //  Бесплатные КУРСЫ
-    @PostMapping("/course/create")
-    public FreeCourseDto createCourse(@RequestBody Course course) {
+    @PostMapping("/course/free/create")
+    public FreeCourseDto createFreeCourse(@RequestBody FreeCourseDto dto) {
+        Course course = courseMapper.convertToEntity(dto);
         return courseMapper.convertToFreeCourseDto(courseService.create(course));
     }
-
 
     @PostMapping("/course/{id}")
     public ResponseEntity<?> uploadImage(@PathVariable Long id, @RequestParam("file") MultipartFile file) throws IOException {
@@ -95,24 +116,24 @@ public class AdminController {
                 .body(uploadImage);
     }
 
-
-    @GetMapping("/course/get/{id}")
-    public FreeCourseDto getCourseById(@PathVariable Long id) {
-        return courseMapper.convertToFreeCourseDto(courseService.getById(id));
-    }
-
-
-    @GetMapping("/course/get/all")
-    public List<FreeCourseDto> getAllCourses() {
-        return courseMapper.convertToFreeCourseDtoList(courseService.getAll());
-    }
-
-
-    @PutMapping("/course/update")
-    public FreeCourseDto updateCourse(@RequestBody Course course) {
+    @PutMapping("/course/free/update")
+    public FreeCourseDto updateFreeCourse(@RequestBody FreeCourseDto dto) {
+        Course course = courseMapper.convertToEntity(dto);
         return courseMapper.convertToFreeCourseDto(courseService.update(course));
     }
 
+    // ПЛАТНЫЕ КУРСЫ
+    @PostMapping("/course/paid/create")
+    public PaidCourseDto createPaidCourse(@RequestBody PaidCourseDto dto) {
+        Course course = courseMapper.convertToEntity(dto);
+        return courseMapper.convertToPaidCourseDto(courseService.create(course));
+    }
+
+    @PutMapping("/course/paid/update")
+    public PaidCourseDto updatePaidCourse(@RequestBody PaidCourseDto dto) {
+        Course course = courseMapper.convertToEntity(dto);
+        return courseMapper.convertToPaidCourseDto(courseService.update(course));
+    }
 
     @DeleteMapping("/course/delete/{id}")
     public void deleteCourse(@PathVariable Long id) {
