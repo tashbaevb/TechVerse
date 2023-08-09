@@ -1,4 +1,4 @@
-insert into users (id, email, name_surname, password, user_role)
+insert into users (id, email, full_name, password, user_role)
 values (1,
         'test1@mail.com',
         'test name 1',

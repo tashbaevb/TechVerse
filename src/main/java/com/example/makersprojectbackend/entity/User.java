@@ -21,19 +21,28 @@ public class User {
     @SequenceGenerator(name = "user_seq", sequenceName = "user_seq", allocationSize = 1)
     Long id;
 
-    String email, password, nameSurname; // Нужно добавить @Email, @Size для password
+    private String email;
 
-    @OneToOne
-    SchoolInfo schoolInfo;
+    private String password;
+
+    private String fullName;
+
+    private Integer schoolNumber;
+
+    private String schoolName;
+
+    private String schoolGrade;
+
+    private String schoolLocation; // Нужно добавить @Email, @Size для password
 
     @Enumerated(EnumType.STRING)
-    UserRole userRole;
+    private UserRole userRole;
 
     @Column(name = "reset_token")
-    String resetToken;
+    private String resetToken;
 
     @Column(name = "reset_token_expire_time")
-    LocalDateTime resetTokenExpireTime;
+    private LocalDateTime resetTokenExpireTime;
 
     @Column(name = "refresh_token")
     private String refreshToken;

@@ -1,22 +1,18 @@
 package com.example.makersprojectbackend.controller.security;
 
+import com.example.makersprojectbackend.dto.UserDto;
 import com.example.makersprojectbackend.entity.User;
+import com.example.makersprojectbackend.mappers.UserMapper;
 import com.example.makersprojectbackend.security.JwtUtil;
-//<<<<<<< HEAD:src/main/java/com/example/makersprojectbackend/controller/AuthController.java
-//import com.example.makersprojectbackend.service.AuthService;
-
-//=======
 import com.example.makersprojectbackend.service.security.AuthService;
-//>>>>>>> khashem:src/main/java/com/example/makersprojectbackend/controller/security/AuthController.java
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
+import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.security.core.AuthenticationException;
-
 
 import java.util.HashMap;
 import java.util.Map;
@@ -28,20 +24,22 @@ public class AuthController {
     private final JwtUtil jwtUtil;
     private final AuthenticationManager authenticationManager;
     private final AuthService authService;
+    private final UserMapper userMapper;
 
 
     @PostMapping("/register")
-    public ResponseEntity<String> register(@RequestBody User registrationRequest) {
+    public ResponseEntity<String> register(@RequestBody UserDto registrationRequest) {
         if (authService.isPresentEmail(registrationRequest.getEmail())) {
-            return ResponseEntity.badRequest().body("Не верный email");
+            return ResponseEntity.badRequest().body("User with email: " + registrationRequest.getEmail() + " already exist!");
         }
-        authService.register(registrationRequest);
+        User user = userMapper.convertToEntity(registrationRequest);
+        authService.register(user);
         return ResponseEntity.ok("Вы зарегистрировались!");
     }
 
 
     @PostMapping("/auth")
-    public ResponseEntity<Map<String, String>> authenticate(@RequestBody User authRequest) {
+    public ResponseEntity<Map<String, String>> authenticate(@RequestBody UserDto authRequest) {
         try {
             Authentication authentication = authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(authRequest.getEmail(), authRequest.getPassword()));
             if (authentication.isAuthenticated()) {

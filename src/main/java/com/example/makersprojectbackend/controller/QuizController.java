@@ -21,18 +21,15 @@ public class QuizController {
         return questionMapper.convertToDto(quizService.startTest(testId));
     }
 
-
     @GetMapping("/{testId}/{currentQuestionIndex}/next")
     public QuestionDto next(@PathVariable Long testId, @PathVariable Integer currentQuestionIndex) {
         return questionMapper.convertToDto(quizService.nextQuestion(testId, currentQuestionIndex));
     }
 
-
     @GetMapping("/{testId}/{currentQuestionIndex}/prev")
     public QuestionDto prev(@PathVariable Long testId, @PathVariable Integer currentQuestionIndex) {
         return questionMapper.convertToDto(quizService.previousQuestion(testId, currentQuestionIndex));
     }
-
 
     @GetMapping("/res/{quizId}")
     public String showResults(@PathVariable Long quizId, @RequestParam Long[] answersIds) {

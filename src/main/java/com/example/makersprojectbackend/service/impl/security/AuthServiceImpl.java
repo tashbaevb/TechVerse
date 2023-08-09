@@ -1,9 +1,6 @@
 package com.example.makersprojectbackend.service.impl.security;
 
-import com.example.makersprojectbackend.entity.SchoolInfo;
 import com.example.makersprojectbackend.entity.User;
-import com.example.makersprojectbackend.enums.UserRole;
-import com.example.makersprojectbackend.repository.SchoolInfoRepository;
 import com.example.makersprojectbackend.repository.UserRepository;
 import com.example.makersprojectbackend.service.security.AuthService;
 import com.example.makersprojectbackend.service.security.EmailService;
@@ -21,29 +18,12 @@ import java.util.UUID;
 @RequiredArgsConstructor
 public class AuthServiceImpl implements AuthService {
     private final UserRepository userRepository;
-    private final SchoolInfoRepository schoolInfoRepository;
     private final EmailService emailService;
     private final PasswordEncoder passwordEncoder;
 
     @Override
-    public void register(User registrationRequest) {
-        User user = new User();
-        user.setEmail(registrationRequest.getEmail());
-        user.setPassword(passwordEncoder.encode(registrationRequest.getPassword()));
-        user.setNameSurname(registrationRequest.getNameSurname());
-        user.setUserRole(UserRole.USER);
-
-        SchoolInfo schoolInfo1 = registrationRequest.getSchoolInfo();
-        SchoolInfo schoolInfo = new SchoolInfo();
-        schoolInfo.setSchoolName(schoolInfo1.getSchoolName());
-        schoolInfo.setSchoolNumber(schoolInfo1.getSchoolNumber());
-        schoolInfo.setLocation(schoolInfo1.getLocation());
-        schoolInfo.setGrade(schoolInfo1.getGrade());
-
-        schoolInfoRepository.save(schoolInfo);
-        user.setSchoolInfo(schoolInfo);
-        schoolInfo.setUser(user);
-
+    public void register(User user) {
+        user.setPassword(passwordEncoder.encode(user.getPassword()));
         userRepository.save(user);
     }
 
