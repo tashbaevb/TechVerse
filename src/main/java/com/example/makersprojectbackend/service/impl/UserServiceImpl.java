@@ -1,6 +1,5 @@
 package com.example.makersprojectbackend.service.impl;
 
-import com.example.makersprojectbackend.entity.SchoolInfo;
 import com.example.makersprojectbackend.entity.User;
 import com.example.makersprojectbackend.entity.course.Course;
 import com.example.makersprojectbackend.entity.forms.Enroll;
@@ -70,13 +69,11 @@ public class UserServiceImpl implements UserService {
     public User update(User newUser) {
         User oldUser = getById(newUser.getId());
         oldUser.setEmail(newUser.getEmail());
-        oldUser.setNameSurname(newUser.getNameSurname());
-        SchoolInfo updatedInfo = newUser.getSchoolInfo();
-        SchoolInfo existingInfo = oldUser.getSchoolInfo();
-        existingInfo.setSchoolNumber(updatedInfo.getSchoolNumber());
-        existingInfo.setSchoolName(updatedInfo.getSchoolName());
-        existingInfo.setGrade(updatedInfo.getGrade());
-        existingInfo.setLocation(updatedInfo.getLocation());
+        oldUser.setFullName(newUser.getFullName());
+        oldUser.setSchoolNumber(newUser.getSchoolNumber());
+        oldUser.setSchoolName(newUser.getSchoolName());
+        oldUser.setSchoolGrade(newUser.getSchoolGrade());
+        oldUser.setSchoolLocation(newUser.getSchoolLocation());
         return userRepository.save(oldUser);
     }
 
