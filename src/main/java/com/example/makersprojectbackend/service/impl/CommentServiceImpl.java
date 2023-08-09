@@ -1,20 +1,15 @@
 package com.example.makersprojectbackend.service.impl;
 
-import com.example.makersprojectbackend.dto.CommentDto;
 import com.example.makersprojectbackend.entity.Comment;
 import com.example.makersprojectbackend.entity.User;
 import com.example.makersprojectbackend.entity.course.Course;
-import com.example.makersprojectbackend.mappers.CommentMapper;
 import com.example.makersprojectbackend.repository.CommentRepository;
 import com.example.makersprojectbackend.repository.UserRepository;
 import com.example.makersprojectbackend.repository.course.CourseRepository;
 import com.example.makersprojectbackend.service.CommentService;
 import lombok.RequiredArgsConstructor;
-import org.springframework.messaging.simp.SimpMessagingTemplate;
-import org.springframework.security.access.AccessDeniedException;
 import org.springframework.stereotype.Service;
 
-import java.time.LocalDateTime;
 import java.util.List;
 
 @Service
@@ -24,8 +19,6 @@ public class CommentServiceImpl implements CommentService {
     private final CommentRepository commentRepository;
     private final CourseRepository courseRepository;
     private final UserRepository userRepository;
-    private final CommentMapper commentMapper;
-    private final SimpMessagingTemplate messagingTemplate;
 
     @Override
     public Comment create(Comment comment, Long courseId, Long userId) {
@@ -37,15 +30,100 @@ public class CommentServiceImpl implements CommentService {
 
         comment.setCourse(course);
         comment.setUser(user);
-        comment.setTimestamp(LocalDateTime.now());
 
         Comment createdComment = commentRepository.save(comment);
 
-        CommentDto commentDto = commentMapper.convertToDTO(createdComment);
-        messagingTemplate.convertAndSend("/text/comments", commentDto);
+        return createdComment;
+    }
+
+
+    @Override
+    public Comment createReply(Comment comment, Long courseId, Long userId, Long parentCommentId) {
+        Course course = courseRepository.findById(courseId)
+                .orElseThrow(() -> new IllegalArgumentException("Курс не найден: " + courseId));
+
+        User user = userRepository.findById(userId)
+                .orElseThrow(() -> new IllegalArgumentException("Пользователь не найден: " + userId));
+
+        comment.setCourse(course);
+        comment.setUser(user);
+
+        if (parentCommentId != null) {
+            Comment parentComment = getById(parentCommentId);
+            comment.setParentComment(parentComment);
+        }
+
+        Comment createdComment = commentRepository.save(comment);
 
         return createdComment;
     }
+
+
+    @Override
+    public List<Comment> getRepliesForComment(Long commentId) {
+        Comment parentComment = getById(commentId);
+        return commentRepository.findByParentComment(parentComment);
+    }
+
+
+//    @Override
+//    public Comment addToFavorites(Long commentId, Long userId) {
+//        Comment comment = commentRepository.findById(commentId)
+//                .orElseThrow(() -> new IllegalArgumentException("Комментарий не найден: " + commentId));
+//
+//        User user = userRepository.findById(userId)
+//                .orElseThrow(() -> new IllegalArgumentException("Пользователь не найден: " + userId));
+//
+//        comment.getFavoritedByUsers().add(user);
+//        return commentRepository.save(comment);
+//    }
+//
+//
+//    @Override
+//    public Comment removeFromFavorites(Long commentId, Long userId) {
+//        Comment comment = commentRepository.findById(commentId)
+//                .orElseThrow(() -> new IllegalArgumentException("Комментарий не найден: " + commentId));
+//
+//        User user = userRepository.findById(userId)
+//                .orElseThrow(() -> new IllegalArgumentException("Пользователь не найден: " + userId));
+//
+//        comment.getFavoritedByUsers().remove(user);
+//        return commentRepository.save(comment);
+//    }
+//
+//
+//    @Override
+//    public int getFavoriteUserCount(Long commentId) {
+//        Comment comment = commentRepository.findById(commentId)
+//                .orElseThrow(() -> new IllegalArgumentException("Комментарий не найден: " + commentId));
+//
+//        return comment.getFavoritedByUsers().size();
+//    }
+//
+//
+//    @Override
+//    public List<UserDto> getFavoriteUsers(Long commentId) {
+//        Comment comment = commentRepository.findById(commentId)
+//                .orElseThrow(() -> new IllegalArgumentException("Комментарий не найден: " + commentId));
+//
+//        return userMapper.convertToDTOList(new ArrayList<>(comment.getFavoritedByUsers()));
+//    }
+//
+//
+//    @Override
+//    public List<CommentDto> getFavoriteCommentsByUser(Long userId) {
+//        User user = userRepository.findById(userId)
+//                .orElseThrow(() -> new IllegalArgumentException("Пользователь не найден: " + userId));
+//
+//        List<CommentDto> favoriteComments = new ArrayList<>();
+//
+//        for (Comment comment : commentRepository.findAll()) {
+//            if (comment.getFavoritedByUsers().contains(user)) {
+//                favoriteComments.add(commentMapper.convertToDTO(comment));
+//            }
+//        }
+//        return favoriteComments;
+//    }
 
 
     @Override
@@ -62,13 +140,13 @@ public class CommentServiceImpl implements CommentService {
 
 
     @Override
-    public List<Comment> getCommentsByUserId(Long userId){
+    public List<Comment> getCommentsByUserId(Long userId) {
         return commentRepository.findByUserId(userId);
     }
 
 
     @Override
-    public List<Comment> getCommentsByCourseId(Long courseId){
+    public List<Comment> getCommentsByCourseId(Long courseId) {
         return commentRepository.findByCourseId(courseId);
     }
 

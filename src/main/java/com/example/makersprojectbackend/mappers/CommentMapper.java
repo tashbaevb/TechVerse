@@ -8,6 +8,7 @@ import org.springframework.stereotype.Component;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Component
 @RequiredArgsConstructor
@@ -16,16 +17,14 @@ public class CommentMapper {
     private final ModelMapper mapper;
 
     public List<CommentDto> convertToDTOList(List<Comment> comments) {
-        List<CommentDto> commentDtoList = new ArrayList<>();
-        for (Comment c : comments) {
-            commentDtoList.add(convertToDTO(c));
-        }
-        return commentDtoList;
+        return comments.stream().map(this::convertToDTO).collect(Collectors.toList());
     }
 
 
     public CommentDto convertToDTO(Comment comment) {
-        return mapper.map(comment, CommentDto.class);
+        CommentDto dto = mapper.map(comment, CommentDto.class);
+        dto.setUserEmail(comment.getUser().getEmail());
+        return dto;
     }
 
     public Comment convertToEntity(CommentDto commentDto){

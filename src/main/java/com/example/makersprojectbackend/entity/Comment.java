@@ -5,8 +5,6 @@ import jakarta.persistence.*;
 import lombok.*;
 import lombok.experimental.FieldDefaults;
 
-import java.time.LocalDateTime;
-
 @Entity
 @Table(name = "comments")
 @AllArgsConstructor
@@ -24,7 +22,6 @@ public class Comment {
     @Column(nullable = false)
     String text;
 
-
     @ManyToOne
     @JoinColumn(name = "course_id", nullable = false)
     Course course;
@@ -33,6 +30,16 @@ public class Comment {
     @JoinColumn(name = "user_id", nullable = false)
     User user;
 
-    @Column(nullable = false)
-    LocalDateTime timestamp;
+
+    @ManyToOne
+    @JoinColumn(name = "parent_comment_id")
+    Comment parentComment; // ссылка на родительский комментарий
+
+
+//    @ManyToMany(mappedBy = "favoritedComments")
+//    Set<User> favoritedByUsers = new HashSet<>(); // пользователи, добавившие комментарий в избранное
+//
+//    @ManyToMany(mappedBy = "favoritedByUsers")
+//    Set<Comment> favoritedComments = new HashSet<>(); // комментарии, добавленные в избранное пользователем
+
 }

@@ -6,6 +6,8 @@ import lombok.*;
 import lombok.experimental.FieldDefaults;
 
 import java.time.LocalDateTime;
+import java.util.HashSet;
+import java.util.Set;
 
 @Entity
 @Table(name = "users")
@@ -40,4 +42,5 @@ public class User {
 
     @Column(name = "refresh_token_expire_time")
     private LocalDateTime refreshTokenExpireTime;
+
 }
