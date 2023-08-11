@@ -1,5 +1,6 @@
 package com.example.makersprojectbackend.entity.course;
 
+import com.example.makersprojectbackend.entity.File;
 import com.example.makersprojectbackend.entity.forms.Enroll;
 import com.example.makersprojectbackend.enums.CourseType;
 import jakarta.persistence.*;
@@ -40,4 +41,7 @@ public class Course {
     @ManyToOne
     @JoinColumn(name = "enroll_id")
     Enroll enroll;
+
+    @OneToOne
+    File file;
 }

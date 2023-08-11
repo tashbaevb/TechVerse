@@ -19,4 +19,5 @@ public class PaidCourseDto {
     List<VideoLectureDto> videoLectures; //видео-лекции
     Integer lectureQuantity; //кол-во видео лекций
     Integer duration; //продолжительность курса в часах
+    byte[] file;
 }

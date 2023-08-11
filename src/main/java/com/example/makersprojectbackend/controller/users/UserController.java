@@ -2,6 +2,7 @@ package com.example.makersprojectbackend.controller.users;
 
 import com.example.makersprojectbackend.dto.UserDto;
 import com.example.makersprojectbackend.dto.course.FreeCourseDto;
+import com.example.makersprojectbackend.dto.course.PaidCourseDto;
 import com.example.makersprojectbackend.entity.User;
 import com.example.makersprojectbackend.entity.forms.Enroll;
 import com.example.makersprojectbackend.entity.forms.Feedback;
@@ -57,14 +58,25 @@ public class UserController {
     }
 
     // COURSE
-    @GetMapping("/course/get/{id}")
-    public FreeCourseDto getCourseById(@PathVariable Long id) {
+    @GetMapping("/course/free/get/{id}")
+    public FreeCourseDto getFreeCourseById(@PathVariable Long id) {
         return courseMapper.convertToFreeCourseDto(courseService.getById(id));
     }
 
 
-    @GetMapping("/course/get/all")
-    public List<FreeCourseDto> getAllCourses() {
+    @GetMapping("/course/free/get/all")
+    public List<FreeCourseDto> getAllFreeCourses() {
         return courseMapper.convertToFreeCourseDtoList(courseService.getAll());
+    }
+
+    @GetMapping("/course/paid/get/{id}")
+    public PaidCourseDto getPaidCourseById(@PathVariable Long id) {
+        return courseMapper.convertToPaidCourseDto(courseService.getById(id));
+    }
+
+
+    @GetMapping("/course/paid/get/all")
+    public List<PaidCourseDto> getAllPaidCourses() {
+        return courseMapper.convertToPaidCourseDtoList(courseService.getAll());
     }
 }

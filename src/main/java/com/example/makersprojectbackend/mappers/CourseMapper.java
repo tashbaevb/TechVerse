@@ -3,7 +3,7 @@ package com.example.makersprojectbackend.mappers;
 import com.example.makersprojectbackend.dto.course.FreeCourseDto;
 import com.example.makersprojectbackend.dto.course.PaidCourseDto;
 import com.example.makersprojectbackend.entity.course.Course;
-import lombok.RequiredArgsConstructor;
+import lombok.AllArgsConstructor;
 import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Component;
 
@@ -11,12 +11,16 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Component
-@RequiredArgsConstructor
+@AllArgsConstructor
 public class CourseMapper {
-    private final ModelMapper mapper;
+    private ModelMapper mapper;
 
     public FreeCourseDto convertToFreeCourseDto(Course course) {
-        return mapper.map(course, FreeCourseDto.class);
+        FreeCourseDto freeCourseDto = mapper.map(course, FreeCourseDto.class);
+        if (course.getFile() != null){
+            freeCourseDto.setFile(course.getFile().getFile());
+        }
+        return freeCourseDto;
     }
 
     public List<FreeCourseDto> convertToFreeCourseDtoList(List<Course> courses) {
@@ -28,7 +32,11 @@ public class CourseMapper {
     }
 
     public PaidCourseDto convertToPaidCourseDto(Course course) {
-        return mapper.map(course, PaidCourseDto.class);
+        PaidCourseDto paidCourseDto = mapper.map(course, PaidCourseDto.class);
+        if (course.getFile() != null) {
+            paidCourseDto.setFile(course.getFile().getFile());
+        }
+        return paidCourseDto;
     }
 
 

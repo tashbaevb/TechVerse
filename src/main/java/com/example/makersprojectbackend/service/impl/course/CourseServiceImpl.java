@@ -89,10 +89,13 @@ public class CourseServiceImpl implements CourseService {
                 .file(file.getBytes())
                 .course(course)
                 .build());
-
+        course.setFile(imageData);
+        courseRepository.save(course);
         if (imageData.getId() != null) {
             return "file uploaded successfully: " + file.getOriginalFilename();
         }
         return null;
     }
+
+
 }

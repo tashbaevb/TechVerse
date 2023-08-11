@@ -27,4 +27,5 @@ public interface CourseService {
     Course removeVideoLecture(Long courseId, Long lectureId);
 
     String uploadImage(Long courseId, MultipartFile file) throws IOException;
+
 }
