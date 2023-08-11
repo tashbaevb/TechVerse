@@ -1,6 +1,7 @@
 package com.example.makersprojectbackend.service.impl.security;
 
 import com.example.makersprojectbackend.entity.User;
+import com.example.makersprojectbackend.enums.UserRole;
 import com.example.makersprojectbackend.repository.UserRepository;
 import com.example.makersprojectbackend.service.security.AuthService;
 import com.example.makersprojectbackend.service.security.EmailService;
@@ -24,6 +25,7 @@ public class AuthServiceImpl implements AuthService {
     @Override
     public void register(User user) {
         user.setPassword(passwordEncoder.encode(user.getPassword()));
+        user.setUserRole(UserRole.USER);
         userRepository.save(user);
     }
 

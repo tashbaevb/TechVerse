@@ -2,6 +2,7 @@ package com.example.makersprojectbackend.service.impl.course;
 
 import com.example.makersprojectbackend.entity.File;
 import com.example.makersprojectbackend.entity.course.Course;
+import com.example.makersprojectbackend.enums.CourseDirection;
 import com.example.makersprojectbackend.repository.FileRepository;
 import com.example.makersprojectbackend.repository.course.CourseRepository;
 import com.example.makersprojectbackend.repository.course.LectureRepository;
@@ -12,7 +13,10 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
+import java.math.BigDecimal;
+import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
@@ -94,5 +98,40 @@ public class CourseServiceImpl implements CourseService {
             return "file uploaded successfully: " + file.getOriginalFilename();
         }
         return null;
+    }
+
+
+    public List<Course> filterCourses(
+            CourseDirection direction, BigDecimal minPrice, BigDecimal maxPrice, Integer minDuration, String name) {
+
+        List<Course> filteredCourses = courseRepository.findAll();
+
+        if (direction != null) {
+            filteredCourses = filteredCourses.stream()
+                    .filter(course -> course.getCourseDirection() == direction)
+                    .collect(Collectors.toList());
+        }
+
+        if (minPrice != null && maxPrice != null) {
+            filteredCourses = filteredCourses.stream()
+                    .filter(course -> course.getPrice() != null &&
+                            course.getPrice().compareTo(minPrice) >= 0 &&
+                            course.getPrice().compareTo(maxPrice) <= 0)
+                    .collect(Collectors.toList());
+        }
+
+        if (minDuration != null) {
+            filteredCourses = filteredCourses.stream()
+                    .filter(course -> course.getDuration() >= minDuration)
+                    .collect(Collectors.toList());
+        }
+
+        if (name != null) {
+            filteredCourses = filteredCourses.stream()
+                    .filter(course -> course.getName().equalsIgnoreCase(name))
+                    .collect(Collectors.toList());
+        }
+
+        return filteredCourses;
     }
 }

@@ -23,6 +23,7 @@ public interface CommentService {
     Comment update(Comment comment);
 
     void delete(Long id);
+
 //
 //    Comment addToFavorites(Long commentId, Long userId);
 //

@@ -1,9 +1,11 @@
 package com.example.makersprojectbackend.service.course;
 
 import com.example.makersprojectbackend.entity.course.Course;
+import com.example.makersprojectbackend.enums.CourseDirection;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
+import java.math.BigDecimal;
 import java.util.List;
 
 public interface CourseService {
@@ -27,4 +29,7 @@ public interface CourseService {
     Course removeVideoLecture(Long courseId, Long lectureId);
 
     String uploadImage(Long courseId, MultipartFile file) throws IOException;
+
+    List<Course> filterCourses
+            (CourseDirection direction, BigDecimal minPrice, BigDecimal maxPrice, Integer minDuration, String name);
 }
