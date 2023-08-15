@@ -2,11 +2,13 @@ package com.example.makersprojectbackend.controller.users;
 
 import com.example.makersprojectbackend.dto.UserDto;
 import com.example.makersprojectbackend.dto.course.FreeCourseDto;
+import com.example.makersprojectbackend.dto.course.PaidCourseDto;
 import com.example.makersprojectbackend.entity.User;
 import com.example.makersprojectbackend.entity.course.Course;
 import com.example.makersprojectbackend.entity.forms.Enroll;
 import com.example.makersprojectbackend.entity.forms.Feedback;
 import com.example.makersprojectbackend.enums.CourseDirection;
+import com.example.makersprojectbackend.enums.CourseType;
 import com.example.makersprojectbackend.mappers.CourseMapper;
 import com.example.makersprojectbackend.mappers.UserMapper;
 import com.example.makersprojectbackend.repository.UserRepository;
@@ -66,20 +68,21 @@ public class UserController {
     }
 
 
-    @GetMapping("/course/get/all")
-    public List<FreeCourseDto> getAllCourses() {
-        return courseMapper.convertToFreeCourseDtoList(courseService.getAll());
+    @GetMapping("/course/free/get/all")
+    public List<Course> getAllFreeCourses(@RequestParam(required = false) CourseType courseType) {
+        return courseService.getCoursesByType(courseType);
     }
 
 
-    @GetMapping("/filter")
-    public List<Course> filterCourse(
-            @RequestParam(required = false)CourseDirection direction,
-            @RequestParam(required = false)BigDecimal minPrice,
-            @RequestParam(required = false)BigDecimal maxPrice,
-            @RequestParam(required = false)Integer minDuration,
-            @RequestParam(required = false)String name
-            ){
-        return courseService.filterCourses(direction, minPrice, maxPrice, minDuration, name);
+    @GetMapping("/course/paid/get/all")
+    public List<Course> getAllPaidCourses(@RequestParam(required = false) CourseType courseType) {
+        return courseService.getCoursesByType(courseType);
+    }
+
+
+    // SEARCH
+    @GetMapping("/search")
+    public List<Course> findCourses(@RequestParam(required = false) String name) {
+        return courseService.findCoursesWithFuzzyName(name);
     }
 }

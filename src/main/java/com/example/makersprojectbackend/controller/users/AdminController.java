@@ -8,7 +8,6 @@ import com.example.makersprojectbackend.entity.forms.Enroll;
 import com.example.makersprojectbackend.entity.forms.Feedback;
 import com.example.makersprojectbackend.mappers.CourseMapper;
 import com.example.makersprojectbackend.mappers.UserMapper;
-import com.example.makersprojectbackend.service.ImageService;
 import com.example.makersprojectbackend.service.UserService;
 import com.example.makersprojectbackend.service.course.CourseService;
 import com.example.makersprojectbackend.service.forms.EnrollService;
@@ -39,7 +38,6 @@ public class AdminController {
     private final CourseMapper courseMapper;
     private final EnrollServiceImpl enrollServiceImpl;
     private final FeedbackServiceImpl feedbackServiceImpl;
-    private final ImageService imageService;
     private final EnrollService enrollService;
     private final UserService userService;
     private final UserMapper userMapper;
