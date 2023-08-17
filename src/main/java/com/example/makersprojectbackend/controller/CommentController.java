@@ -7,6 +7,7 @@ import com.example.makersprojectbackend.mappers.CommentMapper;
 import com.example.makersprojectbackend.repository.UserRepository;
 import com.example.makersprojectbackend.repository.course.CourseRepository;
 import com.example.makersprojectbackend.service.impl.CommentServiceImpl;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.access.AccessDeniedException;
 import org.springframework.security.core.Authentication;
@@ -18,6 +19,7 @@ import java.util.Optional;
 @RestController
 @RequestMapping("/comment")
 @RequiredArgsConstructor
+@Tag(name = "Comment", description = "none") //Байтур, добавь сюда описание контроллера
 public class CommentController {
 
     private final CommentServiceImpl commentServiceImpl;

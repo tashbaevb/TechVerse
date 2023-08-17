@@ -1,4 +1,4 @@
-package com.example.tax__ventures.aspects;
+package com.example.makersprojectbackend.aspects;
 
 import lombok.extern.slf4j.Slf4j;
 import org.aspectj.lang.JoinPoint;
@@ -10,12 +10,10 @@ import org.springframework.stereotype.Component;
 @Component
 @Slf4j
 public class LoggingAspect {
-    @Before("execution(* com.example.tax__ventures.controllers..*(..))")
+    @Before("execution(* com.example.makersprojectbackend.controller..*(..))")
     public void logBeforeMethodExecution(JoinPoint joinPoint) {
         String methodName = joinPoint.getSignature().getName();
         String className = joinPoint.getTarget().getClass().getSimpleName();
         log.info("Выполнение метода {} из класса {} ...", methodName, className);
     }
-
-
 }

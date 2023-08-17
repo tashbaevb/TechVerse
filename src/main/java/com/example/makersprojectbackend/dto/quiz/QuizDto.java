@@ -1,10 +1,6 @@
-package com.example.makersprojectbackend.mappers.quiz;
+package com.example.makersprojectbackend.dto.quiz;
 
-import com.example.makersprojectbackend.dto.quiz.QuestionDto;
 import lombok.Data;
-
-import java.io.Serializable;
-import java.util.List;
 
 @Data
 public class QuizDto {

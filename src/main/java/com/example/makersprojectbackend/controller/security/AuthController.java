@@ -5,6 +5,7 @@ import com.example.makersprojectbackend.entity.User;
 import com.example.makersprojectbackend.mappers.UserMapper;
 import com.example.makersprojectbackend.security.JwtUtil;
 import com.example.makersprojectbackend.service.security.AuthService;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -19,6 +20,7 @@ import java.util.Map;
 
 @RestController
 @RequiredArgsConstructor
+@Tag(name = "Authorization", description = "register, login, reset password, update password")
 public class AuthController {
 
     private final JwtUtil jwtUtil;

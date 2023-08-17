@@ -21,7 +21,7 @@ public class Question {
 
     private String question; //содержимое вопроса
 
-    @OneToMany(mappedBy = "question")
+    @OneToMany(mappedBy = "question", cascade = CascadeType.ALL)
     private List<Answer> answers;
 
     @ManyToOne
