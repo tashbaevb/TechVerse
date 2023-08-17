@@ -47,22 +47,24 @@ public class AdminController {
     String uploadPath;
 
 
-
     //USER
     @GetMapping("/user/get/{userId}")
     public UserDto getUserById(@PathVariable Long userId) {
         return userMapper.convertToDto(userService.getById(userId));
     }
 
+
     @GetMapping("/user/get/all")
     public List<UserDto> getAllUsers() {
         return userMapper.convertToDtoList(userService.getAll());
     }
 
+
     @DeleteMapping("/user/delete/{userId}")
     public void deleteUser(@PathVariable Long userId) {
         userService.delete(userId);
     }
+
 
     @GetMapping("/getImage")
     public ResponseEntity<Resource> getImage(@RequestParam("fileName") String fileName) throws IOException {
@@ -84,15 +86,18 @@ public class AdminController {
         return enrollService.getAll();
     }
 
+
     @GetMapping("/enrolls/download")
     public ResponseEntity<byte[]> downloadApplicationsList() {
         return enrollServiceImpl.exportToExcel(enrollServiceImpl.getAll());
     }
 
+
     @GetMapping("/get/feedbacks")
     public List<Feedback> getFeedbacks() {
         return feedbackServiceImpl.getAll();
     }
+
 
     @GetMapping("/feedbacks/download")
     public ResponseEntity<byte[]> downloadFeedbacksList() {
@@ -107,6 +112,7 @@ public class AdminController {
         return courseMapper.convertToFreeCourseDto(courseService.create(course));
     }
 
+
     @PostMapping("/course/{id}")
     public ResponseEntity<?> uploadImage(@PathVariable Long id, @RequestParam("file") MultipartFile file) throws IOException {
         String uploadImage = courseService.uploadImage(id, file);
@@ -114,11 +120,13 @@ public class AdminController {
                 .body(uploadImage);
     }
 
+
     @PutMapping("/course/free/update")
     public FreeCourseDto updateFreeCourse(@RequestBody FreeCourseDto dto) {
         Course course = courseMapper.convertToEntity(dto);
         return courseMapper.convertToFreeCourseDto(courseService.update(course));
     }
+
 
     // ПЛАТНЫЕ КУРСЫ
     @PostMapping("/course/paid/create")
@@ -127,11 +135,13 @@ public class AdminController {
         return courseMapper.convertToPaidCourseDto(courseService.create(course));
     }
 
+
     @PutMapping("/course/paid/update")
     public PaidCourseDto updatePaidCourse(@RequestBody PaidCourseDto dto) {
         Course course = courseMapper.convertToEntity(dto);
         return courseMapper.convertToPaidCourseDto(courseService.update(course));
     }
+
 
     @DeleteMapping("/course/delete/{id}")
     public void deleteCourse(@PathVariable Long id) {

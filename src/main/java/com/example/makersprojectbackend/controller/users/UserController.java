@@ -28,6 +28,7 @@ import java.util.Optional;
 @RequestMapping("/user")
 @RequiredArgsConstructor
 public class UserController {
+
     private final CourseService courseService;
     private final CourseMapper courseMapper;
     private final UserMapper userMapper;
@@ -43,6 +44,7 @@ public class UserController {
         return userMapper.convertToDtoOpt(user);
     }
 
+
     @PutMapping("/user/update/")
     public UserDto update(@RequestBody UserDto dto) {
         User user = userMapper.convertToEntity(dto);
@@ -51,15 +53,17 @@ public class UserController {
 
 
     // ЗАЯВКИ И ЗАПИСЬ
-    @PutMapping("/sub/{courseId}") //записаться на курс
+    @PutMapping("/subscribe/{courseId}") //записаться на курс
     public void subscribe(@PathVariable Long courseId, @RequestBody Enroll enroll) throws Exception {
         userService.enrollPaidCourse(courseId, enroll);
     }
+
 
     @PutMapping("/feedback") //связаться
     public ResponseEntity<String> feedback(@RequestBody Feedback feedback) {
         return userService.makeFeedback(feedback);
     }
+
 
     // COURSE
     @GetMapping("/course/get/{id}")
@@ -68,20 +72,14 @@ public class UserController {
     }
 
 
-    @GetMapping("/course/free/get/all")
-    public List<Course> getAllFreeCourses(@RequestParam(required = false) CourseType courseType) {
-        return courseService.getCoursesByType(courseType);
-    }
-
-
-    @GetMapping("/course/paid/get/all")
+    @GetMapping("/course/get/all")
     public List<Course> getAllPaidCourses(@RequestParam(required = false) CourseType courseType) {
         return courseService.getCoursesByType(courseType);
     }
 
 
     // SEARCH
-    @GetMapping("/search")
+    @GetMapping("course/search")
     public List<Course> findCourses(@RequestParam(required = false) String name) {
         return courseService.findCoursesWithFuzzyName(name);
     }
