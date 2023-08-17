@@ -1,7 +1,9 @@
 package com.example.makersprojectbackend.mappers.quiz;
 
 import com.example.makersprojectbackend.dto.quiz.AnswerDto;
+import com.example.makersprojectbackend.dto.quiz.AnswerRequest;
 import com.example.makersprojectbackend.entity.quiz.Answer;
+import lombok.AllArgsConstructor;
 import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Component;
 
@@ -9,11 +11,21 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Component
+@AllArgsConstructor
 public class AnswerMapper {
-    private final ModelMapper mapper;
+    private ModelMapper mapper;
 
-    public AnswerMapper(ModelMapper mapper) {
-        this.mapper = mapper;
+
+    public AnswerDto convertToDto(Answer answer) {
+        return mapper.map(answer, AnswerDto.class);
+    }
+
+    public Answer convertToEntity(AnswerDto answer) {
+        return mapper.map(answer, Answer.class);
+    }
+
+    public Answer convertToEntity(AnswerRequest request) {
+        return mapper.map(request, Answer.class);
     }
 
     public List<AnswerDto> convertToDtoList(List<Answer> answers) {
@@ -24,8 +36,5 @@ public class AnswerMapper {
         return answerDtoList;
     }
 
-    public AnswerDto convertToDto(Answer answer) {
-        return mapper.map(answer, AnswerDto.class);
-    }
 
 }

@@ -1,5 +1,6 @@
 package com.example.makersprojectbackend.service.course;
 
+import com.example.makersprojectbackend.entity.User;
 import com.example.makersprojectbackend.entity.course.Course;
 import com.example.makersprojectbackend.enums.CourseType;
 import org.springframework.web.multipart.MultipartFile;
@@ -9,6 +10,7 @@ import java.util.List;
 
 public interface CourseService {
 
+    // CRUD
     Course create(Course course);
 
     Course getById(Long id);
@@ -29,6 +31,7 @@ public interface CourseService {
 
     String uploadImage(Long courseId, MultipartFile file) throws IOException;
 
+    // SEARCH
     List<Course> findCoursesWithFuzzyName(String name);
 
     List<Course> getCoursesByType(CourseType courseType);

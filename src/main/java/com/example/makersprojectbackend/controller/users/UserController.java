@@ -2,31 +2,35 @@ package com.example.makersprojectbackend.controller.users;
 
 import com.example.makersprojectbackend.dto.UserDto;
 import com.example.makersprojectbackend.dto.course.FreeCourseDto;
-import com.example.makersprojectbackend.dto.course.PaidCourseDto;
 import com.example.makersprojectbackend.entity.User;
 import com.example.makersprojectbackend.entity.course.Course;
 import com.example.makersprojectbackend.entity.forms.Enroll;
 import com.example.makersprojectbackend.entity.forms.Feedback;
-import com.example.makersprojectbackend.enums.CourseDirection;
 import com.example.makersprojectbackend.enums.CourseType;
 import com.example.makersprojectbackend.mappers.CourseMapper;
 import com.example.makersprojectbackend.mappers.UserMapper;
 import com.example.makersprojectbackend.repository.UserRepository;
+import com.example.makersprojectbackend.repository.course.CourseRepository;
 import com.example.makersprojectbackend.service.UserService;
 import com.example.makersprojectbackend.service.course.CourseService;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
 
-import java.math.BigDecimal;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
+
 
 @RestController
 @RequestMapping("/user")
 @RequiredArgsConstructor
+@Tag(name = "User", description = "get personal info, make feedback/enroll(sub), get courses")
 public class UserController {
 
     private final CourseService courseService;
@@ -34,6 +38,7 @@ public class UserController {
     private final UserMapper userMapper;
     private final UserRepository userRepository;
     private final UserService userService;
+    private final CourseRepository courseRepository;
 
     // ЛИЧНЫЙ КАБИНЕТ
     @GetMapping("/personal-info")
@@ -72,14 +77,20 @@ public class UserController {
     }
 
 
-    @GetMapping("/course/get/all")
+    @GetMapping("/course/get")
     public List<Course> getAllPaidCourses(@RequestParam(required = false) CourseType courseType) {
         return courseService.getCoursesByType(courseType);
     }
 
 
+    @GetMapping("/course/get/all")
+    public List<Course> getAll() {
+        return courseService.getAll();
+    }
+
+
     // SEARCH
-    @GetMapping("course/search")
+    @GetMapping("/course/search")
     public List<Course> findCourses(@RequestParam(required = false) String name) {
         return courseService.findCoursesWithFuzzyName(name);
     }

@@ -1,10 +1,12 @@
 package com.example.makersprojectbackend.service.impl.course;
 
 import com.example.makersprojectbackend.entity.File;
+import com.example.makersprojectbackend.entity.User;
 import com.example.makersprojectbackend.entity.course.Course;
 import com.example.makersprojectbackend.enums.CourseDirection;
 import com.example.makersprojectbackend.enums.CourseType;
 import com.example.makersprojectbackend.repository.FileRepository;
+import com.example.makersprojectbackend.repository.UserRepository;
 import com.example.makersprojectbackend.repository.course.CourseRepository;
 import com.example.makersprojectbackend.repository.course.LectureRepository;
 import com.example.makersprojectbackend.repository.course.VideoLectureRepository;
@@ -12,11 +14,13 @@ import com.example.makersprojectbackend.service.course.CourseService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
+import org.webjars.NotFoundException;
 
 import java.io.IOException;
 import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Service
@@ -27,6 +31,7 @@ public class CourseServiceImpl implements CourseService {
     private final LectureRepository lectureRepository;
     private final VideoLectureRepository videoLectureRepository;
     private final FileRepository fileRepository;
+    private final UserRepository userRepository;
 
 
     @Override
@@ -108,15 +113,14 @@ public class CourseServiceImpl implements CourseService {
         return null;
     }
 
-
+    // SEARCH
     @Override
     public List<Course> findCoursesWithFuzzyName(String name) {
         List<Course> filteredCourses = courseRepository.findAll();
 
         if (!name.isEmpty()) {
             String normalizedQuery = name.toLowerCase();
-            filteredCourses = filteredCourses.stream().filter(course -> course.getName().toLowerCase().contains(normalizedQuery))
-                    .collect(Collectors.toList());
+            filteredCourses = filteredCourses.stream().filter(course -> course.getName().toLowerCase().contains(normalizedQuery)).collect(Collectors.toList());
         }
 
         return filteredCourses;

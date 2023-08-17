@@ -3,7 +3,7 @@ package com.example.makersprojectbackend.dto.quiz;
 import lombok.Data;
 
 @Data
-public class AnswerDto {
+public class QuizDto {
     private Long id;
-    private String answer;
+    private String title;
 }

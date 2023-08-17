@@ -3,16 +3,27 @@ package com.example.makersprojectbackend.controller.users;
 import com.example.makersprojectbackend.dto.UserDto;
 import com.example.makersprojectbackend.dto.course.FreeCourseDto;
 import com.example.makersprojectbackend.dto.course.PaidCourseDto;
+import com.example.makersprojectbackend.dto.quiz.*;
 import com.example.makersprojectbackend.entity.course.Course;
 import com.example.makersprojectbackend.entity.forms.Enroll;
 import com.example.makersprojectbackend.entity.forms.Feedback;
+import com.example.makersprojectbackend.entity.quiz.Answer;
+import com.example.makersprojectbackend.entity.quiz.Question;
+import com.example.makersprojectbackend.entity.quiz.Quiz;
 import com.example.makersprojectbackend.mappers.CourseMapper;
 import com.example.makersprojectbackend.mappers.UserMapper;
+import com.example.makersprojectbackend.mappers.quiz.AnswerMapper;
+import com.example.makersprojectbackend.mappers.quiz.QuestionMapper;
+import com.example.makersprojectbackend.mappers.quiz.QuizMapper;
 import com.example.makersprojectbackend.service.UserService;
 import com.example.makersprojectbackend.service.course.CourseService;
 import com.example.makersprojectbackend.service.forms.EnrollService;
 import com.example.makersprojectbackend.service.impl.forms.EnrollServiceImpl;
 import com.example.makersprojectbackend.service.impl.forms.FeedbackServiceImpl;
+import com.example.makersprojectbackend.service.quiz.AnswerService;
+import com.example.makersprojectbackend.service.quiz.QuestionService;
+import com.example.makersprojectbackend.service.quiz.QuizService;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.core.io.ByteArrayResource;
@@ -32,6 +43,7 @@ import java.util.List;
 @RestController
 @RequestMapping("/admin")
 @RequiredArgsConstructor
+@Tag(name = "Admin", description = "crud user, courses (free/paid), quizzes & add/remove lectures to course, download feedbacks/enrolls")
 public class AdminController {
 
     private final CourseService courseService;
@@ -41,6 +53,12 @@ public class AdminController {
     private final EnrollService enrollService;
     private final UserService userService;
     private final UserMapper userMapper;
+    private final QuizService quizService;
+    private final QuizMapper quizMapper;
+    private final QuestionService questionService;
+    private final QuestionMapper questionMapper;
+    private final AnswerService answerService;
+    private final AnswerMapper answerMapper;
 
 
     @Value("${upload.folder}")
@@ -170,5 +188,89 @@ public class AdminController {
     @DeleteMapping("/course/v/lecture/remove/{courseId}/{lectureId}")
     public FreeCourseDto removeVideoLectureToCourse(@PathVariable Long courseId, @PathVariable Long lectureId) {
         return courseMapper.convertToFreeCourseDto(courseService.removeVideoLecture(courseId, lectureId));
+    }
+
+    // ТЕСТЫ
+    @PostMapping("/quiz/create")
+    public QuizDto createQuiz(@RequestBody QuizRequest request) {
+        Quiz quiz = quizMapper.convertToEntity(request);
+        return quizMapper.convertToDto(quizService.create(quiz));
+    }
+
+    @GetMapping("/quiz/get/{quizId}")
+    public QuizDto getQuiz(@PathVariable Long quizId) {
+        return quizMapper.convertToDto(quizService.getById(quizId));
+    }
+
+    @GetMapping("/quiz/get/all")
+    public List<QuizDto> getAllQuiz() {
+        return quizMapper.convertToDtoList(quizService.getAll());
+    }
+
+    @PostMapping("/quiz/update")
+    public QuizDto updateQuiz(@RequestBody QuizDto request) {
+        Quiz quiz = quizMapper.convertToEntity(request);
+        return quizMapper.convertToDto(quizService.update(quiz));
+    }
+
+    @DeleteMapping("/quiz/delete/{id}")
+    public void deleteQuiz(@PathVariable Long id) {
+        quizService.delete(id);
+    }
+
+    //ВОПРОСЫ
+    @PostMapping("/question/create/{quizId}")
+    public QuestionDto createQuestion(@PathVariable Long quizId, @RequestBody QuestionRequest request) {
+        Question question = questionMapper.convertToEntity(request);
+        return questionMapper.convertToDto(questionService.create(quizId, question));
+    }
+
+    @GetMapping("/question/get/{qId}")
+    public QuestionDto getQuestion(@PathVariable Long qId) {
+        return questionMapper.convertToDto(questionService.getById(qId));
+    }
+
+    @GetMapping("/question/get/all")
+    public List<QuestionDto> getAllQuestion() {
+        return questionMapper.convertToDtoList(questionService.getAll());
+    }
+
+    @PostMapping("/question/update/{quizId}")
+    public QuestionDto updateQuestion(@PathVariable Long quizId, @RequestBody QuestionUpdateDto request) {
+        Question question = questionMapper.convertToEntity(request);
+        return questionMapper.convertToDto(questionService.update(quizId, question));
+    }
+
+    @DeleteMapping("/question/delete/{id}")
+    public void deleteQuestion(@PathVariable Long id) {
+        questionService.delete(id);
+    }
+
+    //ОТВЕТЫ
+    @PostMapping("/answer/create/{questionId}")
+    public AnswerDto createAnswer(@PathVariable Long questionId, @RequestBody AnswerRequest request) {
+        Answer answer = answerMapper.convertToEntity(request);
+        return answerMapper.convertToDto(answerService.create(questionId, answer));
+    }
+
+    @GetMapping("/answer/get/{answerId}")
+    public AnswerDto getAnswer(@PathVariable Long answerId) {
+        return answerMapper.convertToDto(answerService.getById(answerId));
+    }
+
+    @PostMapping("/answer/get/all/{questionId}")
+    public List<AnswerDto> getAllAnswers(@PathVariable Long questionId) {
+        return answerMapper.convertToDtoList(answerService.getAllAnswersByQuestionId(questionId));
+    }
+
+    @PostMapping("/answer/update/{questionId}")
+    public AnswerDto updateAnswer(@PathVariable Long questionId, @RequestBody AnswerRequest request) {
+        Answer answer = answerMapper.convertToEntity(request);
+        return answerMapper.convertToDto(answerService.update(questionId, answer));
+    }
+
+    @DeleteMapping("/answer/delete/{id}")
+    public void deleteAnswer(@PathVariable Long id) {
+        answerService.delete(id);
     }
 }

@@ -1,6 +1,7 @@
 package com.example.makersprojectbackend.entity.course;
 
 import com.example.makersprojectbackend.entity.File;
+import com.example.makersprojectbackend.entity.User;
 import com.example.makersprojectbackend.entity.forms.Enroll;
 import com.example.makersprojectbackend.enums.CourseDirection;
 import com.example.makersprojectbackend.enums.CourseType;
@@ -10,7 +11,10 @@ import lombok.experimental.FieldDefaults;
 //import org.springframework.data.elasticsearch.annotations.Document;
 
 import java.math.BigDecimal;
+import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 @Entity
 @Table(name = "courses")

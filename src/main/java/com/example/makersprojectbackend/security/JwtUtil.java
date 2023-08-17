@@ -17,8 +17,8 @@ import java.util.function.Function;
 @Component
 public class JwtUtil {
     private static final String SECRET = "a512b5ae24053250934237d6924a735891b5c7f7af009f7bd2023838fca11475";
-    private static final long ACCESS_TOKEN_EXPIRATION_TIME = 30 * 60 * 300; // Время жизни Access токена
-    private static final long REFRESH_TOKEN_EXPIRATION_TIME = 43200 * 60 * 500; // Время жизни Refresh токена
+    private static final long ACCESS_TOKEN_EXPIRATION_TIME = 60000 * 30; // Время жизни Access токена 30 min
+    private static final long REFRESH_TOKEN_EXPIRATION_TIME = 60000 * 60 * 24 * 20; // Время жизни Refresh токена 20 tag
 
     private Key getSignKey() {
         byte[] keyBytes = Decoders.BASE64.decode(SECRET);

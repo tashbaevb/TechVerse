@@ -1,11 +1,16 @@
 package com.example.makersprojectbackend.entity;
 
+import com.example.makersprojectbackend.entity.course.Course;
 import com.example.makersprojectbackend.enums.UserRole;
 import jakarta.persistence.*;
 import lombok.*;
 import lombok.experimental.FieldDefaults;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
 
 @Entity
 @Table(name = "users")
@@ -21,33 +26,23 @@ public class User {
     @SequenceGenerator(name = "user_seq", sequenceName = "user_seq", allocationSize = 1)
     Long id;
 
-    private String email;
+    String email, password, fullName, schoolName, schoolGrade, schoolLocation;
 
-    private String password;
+    Integer schoolNumber;
 
-    private String fullName;
-
-    private Integer schoolNumber;
-
-    private String schoolName;
-
-    private String schoolGrade;
-
-    private String schoolLocation; // Нужно добавить @Email, @Size для password
 
     @Enumerated(EnumType.STRING)
-    private UserRole userRole;
+    UserRole userRole;
 
     @Column(name = "reset_token")
-    private String resetToken;
+    String resetToken;
 
     @Column(name = "reset_token_expire_time")
-    private LocalDateTime resetTokenExpireTime;
+    LocalDateTime resetTokenExpireTime;
 
     @Column(name = "refresh_token")
-    private String refreshToken;
+    String refreshToken;
 
     @Column(name = "refresh_token_expire_time")
-    private LocalDateTime refreshTokenExpireTime;
-
+    LocalDateTime refreshTokenExpireTime;
 }

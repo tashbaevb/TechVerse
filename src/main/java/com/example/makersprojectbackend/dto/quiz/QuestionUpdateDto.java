@@ -4,12 +4,9 @@ import lombok.AccessLevel;
 import lombok.Data;
 import lombok.experimental.FieldDefaults;
 
-import java.util.List;
-
 @Data
 @FieldDefaults(level = AccessLevel.PRIVATE)
-public class QuestionDto {
+public class QuestionUpdateDto {
     Long id;
     String question; //содержимое вопроса
-    List<AnswerDto> answers;
 }
