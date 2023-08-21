@@ -7,10 +7,7 @@ import lombok.*;
 import lombok.experimental.FieldDefaults;
 
 import java.time.LocalDateTime;
-import java.util.ArrayList;
-import java.util.HashSet;
 import java.util.List;
-import java.util.Set;
 
 @Entity
 @Table(name = "users")
@@ -45,4 +42,12 @@ public class User {
 
     @Column(name = "refresh_token_expire_time")
     LocalDateTime refreshTokenExpireTime;
+
+    @OneToMany(mappedBy = "user")
+    List<Favorite> favorites;
+
+    @OneToOne
+    @JoinColumn(name = "course_id")
+    Course course;
+
 }

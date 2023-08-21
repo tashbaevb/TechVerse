@@ -66,67 +66,6 @@ public class CommentServiceImpl implements CommentService {
     }
 
 
-
-//    @Override
-//    public Comment addToFavorites(Long commentId, Long userId) {
-//        Comment comment = commentRepository.findById(commentId)
-//                .orElseThrow(() -> new IllegalArgumentException("Комментарий не найден: " + commentId));
-//
-//        User user = userRepository.findById(userId)
-//                .orElseThrow(() -> new IllegalArgumentException("Пользователь не найден: " + userId));
-//
-//        comment.getFavoritedByUsers().add(user);
-//        return commentRepository.save(comment);
-//    }
-//
-//
-//    @Override
-//    public Comment removeFromFavorites(Long commentId, Long userId) {
-//        Comment comment = commentRepository.findById(commentId)
-//                .orElseThrow(() -> new IllegalArgumentException("Комментарий не найден: " + commentId));
-//
-//        User user = userRepository.findById(userId)
-//                .orElseThrow(() -> new IllegalArgumentException("Пользователь не найден: " + userId));
-//
-//        comment.getFavoritedByUsers().remove(user);
-//        return commentRepository.save(comment);
-//    }
-//
-//
-//    @Override
-//    public int getFavoriteUserCount(Long commentId) {
-//        Comment comment = commentRepository.findById(commentId)
-//                .orElseThrow(() -> new IllegalArgumentException("Комментарий не найден: " + commentId));
-//
-//        return comment.getFavoritedByUsers().size();
-//    }
-//
-//
-//    @Override
-//    public List<UserDto> getFavoriteUsers(Long commentId) {
-//        Comment comment = commentRepository.findById(commentId)
-//                .orElseThrow(() -> new IllegalArgumentException("Комментарий не найден: " + commentId));
-//
-//        return userMapper.convertToDTOList(new ArrayList<>(comment.getFavoritedByUsers()));
-//    }
-//
-//
-//    @Override
-//    public List<CommentDto> getFavoriteCommentsByUser(Long userId) {
-//        User user = userRepository.findById(userId)
-//                .orElseThrow(() -> new IllegalArgumentException("Пользователь не найден: " + userId));
-//
-//        List<CommentDto> favoriteComments = new ArrayList<>();
-//
-//        for (Comment comment : commentRepository.findAll()) {
-//            if (comment.getFavoritedByUsers().contains(user)) {
-//                favoriteComments.add(commentMapper.convertToDTO(comment));
-//            }
-//        }
-//        return favoriteComments;
-//    }
-
-
     @Override
     public Comment getById(Long id) {
         return commentRepository.findById(id)

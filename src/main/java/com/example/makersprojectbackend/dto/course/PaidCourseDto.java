@@ -20,7 +20,5 @@ public class PaidCourseDto {
     List<VideoLectureDto> videoLectures; //видео-лекции
     Integer lectureQuantity, duration; //кол-во видео лекций / продолжительность курса в часах
     CourseDirection courseDirection;
-//=======
     byte[] file;
-//>>>>>>> khashem
 }

@@ -67,47 +67,6 @@ public class CommentController {
     }
 
 
-//
-//    @PostMapping("/favorite/add/{commentId}")
-//    public ResponseEntity<String> addToFavorites(@PathVariable Long commentId, Authentication authentication) {
-//        String email = authentication.getName();
-//        Optional<User> optionalUser = userRepository.findByEmail(email);
-//        User currentUser = optionalUser.orElseThrow(() -> new IllegalArgumentException("Пользователь не найден: " + email));
-//
-//        commentServiceImpl.addToFavorites(commentId, currentUser.getId());
-//        return ResponseEntity.ok("Комментарий добавлен в избранное");
-//    }
-//
-//    @PostMapping("/favorite/remove/{commentId}")
-//    public ResponseEntity<String> removeFromFavorites(@PathVariable Long commentId, Authentication authentication) {
-//        String email = authentication.getName();
-//        Optional<User> optionalUser = userRepository.findByEmail(email);
-//        User currentUser = optionalUser.orElseThrow(() -> new IllegalArgumentException("Пользователь не найден: " + email));
-//
-//        commentServiceImpl.removeFromFavorites(commentId, currentUser.getId());
-//        return ResponseEntity.ok("Комментарий удален из избранного");
-//    }
-//
-//
-//    @GetMapping("/favorite/count/{commentId}")
-//    public ResponseEntity<Integer> getFavoriteUserCount(@PathVariable Long commentId) {
-//        int count = commentServiceImpl.getFavoriteUserCount(commentId);
-//        return ResponseEntity.ok(count);
-//    }
-//
-//    @GetMapping("/favorite/users/{commentId}")
-//    public ResponseEntity<List<UserDto>> getFavoriteUsers(@PathVariable Long commentId) {
-//        List<UserDto> favoriteUsers = commentServiceImpl.getFavoriteUsers(commentId);
-//        return ResponseEntity.ok(favoriteUsers);
-//    }
-//
-//    @GetMapping("/favorite/comments/{userId}")
-//    public ResponseEntity<List<CommentDto>> getFavoriteCommentsByUser(@PathVariable Long userId) {
-//        List<CommentDto> favoriteComments = commentServiceImpl.getFavoriteCommentsByUser(userId);
-//        return ResponseEntity.ok(favoriteComments);
-//    }
-
-
     @GetMapping("/get/{commentId}")
     public CommentDto getCommentById(@PathVariable Long commentId) {
         return commentMapper.convertToDTO(commentServiceImpl.getById(commentId));

@@ -10,21 +10,20 @@ import com.example.makersprojectbackend.enums.CourseType;
 import com.example.makersprojectbackend.mappers.CourseMapper;
 import com.example.makersprojectbackend.mappers.UserMapper;
 import com.example.makersprojectbackend.repository.UserRepository;
-import com.example.makersprojectbackend.repository.course.CourseRepository;
+import com.example.makersprojectbackend.service.FavoriteService;
 import com.example.makersprojectbackend.service.UserService;
 import com.example.makersprojectbackend.service.course.CourseService;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.AccessDeniedException;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
-import java.util.stream.Collectors;
 
 
 @RestController
@@ -38,7 +37,7 @@ public class UserController {
     private final UserMapper userMapper;
     private final UserRepository userRepository;
     private final UserService userService;
-    private final CourseRepository courseRepository;
+    private final FavoriteService favoriteService;
 
     // ЛИЧНЫЙ КАБИНЕТ
     @GetMapping("/personal-info")
@@ -93,5 +92,55 @@ public class UserController {
     @GetMapping("/course/search")
     public List<Course> findCourses(@RequestParam(required = false) String name) {
         return courseService.findCoursesWithFuzzyName(name);
+    }
+
+
+    // FAVORITE
+
+    @PostMapping("/favorite/add/{courseId}")
+    public ResponseEntity<String> addToFavorites(@PathVariable Long courseId, Authentication authentication) {
+        if (authentication == null || !authentication.isAuthenticated()) {
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("User not authenticated.");
+        }
+
+        String email = authentication.getName();
+        User user = userRepository.findByEmail(email).orElseThrow(() -> new IllegalArgumentException("User not found: " + email));
+
+        try {
+            favoriteService.addToFavorites(user.getId(), courseId);
+            return ResponseEntity.ok("Course added to favorites.");
+        } catch (RuntimeException e) {
+            return ResponseEntity.badRequest().body(e.getMessage());
+        }
+    }
+
+    @PostMapping("/favorite/remove/{courseId}")
+    public ResponseEntity<String> removeFromFavorites(@PathVariable Long courseId, Authentication authentication) {
+        if (authentication == null || !authentication.isAuthenticated()) {
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("User not authenticated.");
+        }
+
+        String email = authentication.getName();
+        User user = userRepository.findByEmail(email).orElseThrow(() -> new IllegalArgumentException("User not found: " + email));
+
+        try {
+            favoriteService.removeFromFavorites(user.getId(), courseId);
+            return ResponseEntity.ok("Course removed from favorites.");
+        } catch (AccessDeniedException e) {
+            return ResponseEntity.status(HttpStatus.FORBIDDEN).body(e.getMessage());
+        }
+    }
+
+    @GetMapping("/favorite/get")
+    public ResponseEntity<List<Course>> getUserFavorites(Authentication authentication) {
+        if (authentication == null || !authentication.isAuthenticated()) {
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
+        }
+
+        String email = authentication.getName();
+        User currentUser = userRepository.findByEmail(email).orElseThrow(() -> new IllegalArgumentException("User not found: " + email));
+
+        List<Course> userFavorites = favoriteService.getUserFavorites(currentUser.getId());
+        return ResponseEntity.ok(userFavorites);
     }
 }

@@ -17,7 +17,7 @@ public class FreeCourseDto {
     List<LectureDto> lectures; //лекции
     List<VideoLectureDto> videoLectures; //видео-лекции
     Integer lectureQuantity; //кол-во видео лекций
-    Double duration; //продолжительность курса в часах
+    Integer duration; //продолжительность курса в часах
     CourseDirection courseDirection;
     byte[] file;
 }
