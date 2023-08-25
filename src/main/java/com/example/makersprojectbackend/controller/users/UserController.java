@@ -7,7 +7,6 @@ import com.example.makersprojectbackend.entity.User;
 import com.example.makersprojectbackend.entity.course.Course;
 import com.example.makersprojectbackend.entity.forms.Enroll;
 import com.example.makersprojectbackend.entity.forms.Feedback;
-import com.example.makersprojectbackend.enums.CourseType;
 import com.example.makersprojectbackend.mappers.CourseMapper;
 import com.example.makersprojectbackend.mappers.UserMapper;
 import com.example.makersprojectbackend.repository.UserRepository;
@@ -22,6 +21,7 @@ import org.springframework.security.access.AccessDeniedException;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
+
 import java.util.List;
 import java.util.Optional;
 
@@ -86,7 +86,7 @@ public class UserController {
     public List<PaidCourseDto> getAllPaidCourses() {
         return courseMapper.convertToPaidCourseDtoList(courseService.getAll());
     }
-}
+
 
     // FAVORITE
 

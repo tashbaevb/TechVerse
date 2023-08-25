@@ -1,6 +1,5 @@
 package com.example.makersprojectbackend.service.course;
 
-import com.example.makersprojectbackend.entity.User;
 import com.example.makersprojectbackend.entity.course.Course;
 import com.example.makersprojectbackend.enums.CourseType;
 import org.springframework.web.multipart.MultipartFile;
