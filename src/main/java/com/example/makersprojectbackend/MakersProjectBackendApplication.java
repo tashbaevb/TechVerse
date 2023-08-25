@@ -12,16 +12,9 @@ public class MakersProjectBackendApplication {
         SpringApplication.run(MakersProjectBackendApplication.class, args);
     }
 
-    //<<<<<<< HEAD
-//    @Bean
-//    public ModelMapper modelMapper() {
-//        return new ModelMapper();
-//    }
-//=======
     @Bean
     public ModelMapper mapper() {
         return new ModelMapper();
     }
 
-//>>>>>>> adelina
 }

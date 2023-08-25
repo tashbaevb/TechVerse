@@ -23,5 +23,4 @@ public interface UserService {
     void enrollPaidCourse(Long courseId, Enroll enroll) throws Exception;
 
     ResponseEntity<String> makeFeedback(Feedback feedback);
-
 }

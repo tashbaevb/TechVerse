@@ -5,6 +5,7 @@ import com.example.makersprojectbackend.entity.course.Course;
 import com.example.makersprojectbackend.entity.forms.Enroll;
 import com.example.makersprojectbackend.entity.forms.Feedback;
 import com.example.makersprojectbackend.enums.CourseType;
+import com.example.makersprojectbackend.enums.UserRole;
 import com.example.makersprojectbackend.repository.UserRepository;
 import com.example.makersprojectbackend.repository.course.CourseRepository;
 import com.example.makersprojectbackend.repository.forms.EnrollRepository;
@@ -55,6 +56,7 @@ public class UserServiceImpl implements UserService {
     @Override
     public User create(User user) {
         user.setPassword(passwordEncoder.encode(user.getPassword()));
+        user.setUserRole(UserRole.USER);
         return userRepository.save(user);
     }
 
