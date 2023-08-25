@@ -41,10 +41,10 @@ public class UserController {
         return userMapper.convertToDtoOpt(user);
     }
 
-    @PutMapping("/user/update/")
-    public UserDto update(@RequestBody UserDto dto) {
+    @PutMapping("/user/update")
+    public UserDto update(@RequestBody UserDto dto, Authentication authentication) {
         User user = userMapper.convertToEntity(dto);
-        return userMapper.convertToDto(userService.update(user));
+        return userMapper.convertToDto(userService.update(user, authentication));
     }
 
 

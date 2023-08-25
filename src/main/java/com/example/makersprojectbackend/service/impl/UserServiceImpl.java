@@ -13,11 +13,14 @@ import com.example.makersprojectbackend.service.UserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.Authentication;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.webjars.NotFoundException;
 
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
@@ -66,15 +69,18 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public User update(User newUser) {
-        User oldUser = getById(newUser.getId());
-        oldUser.setEmail(newUser.getEmail());
-        oldUser.setFullName(newUser.getFullName());
-        oldUser.setSchoolNumber(newUser.getSchoolNumber());
-        oldUser.setSchoolName(newUser.getSchoolName());
-        oldUser.setSchoolGrade(newUser.getSchoolGrade());
-        oldUser.setSchoolLocation(newUser.getSchoolLocation());
-        return userRepository.save(oldUser);
+    public User update(User newUser, Authentication authentication) {
+        Optional<User> user = userRepository.findByEmail(authentication.getName());
+        if (user.isPresent()) {
+            User oldUser = user.get();
+            oldUser.setEmail(newUser.getEmail());
+            oldUser.setFullName(newUser.getFullName());
+            oldUser.setSchoolNumber(newUser.getSchoolNumber());
+            oldUser.setSchoolName(newUser.getSchoolName());
+            oldUser.setSchoolGrade(newUser.getSchoolGrade());
+            oldUser.setSchoolLocation(newUser.getSchoolLocation());
+            return userRepository.save(oldUser);
+        }else throw new NotFoundException("Пользователь не найден");
     }
 
     @Override
