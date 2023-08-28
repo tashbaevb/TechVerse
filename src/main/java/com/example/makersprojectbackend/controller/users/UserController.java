@@ -2,12 +2,11 @@ package com.example.makersprojectbackend.controller.users;
 
 import com.example.makersprojectbackend.dto.UserDto;
 import com.example.makersprojectbackend.dto.course.FreeCourseDto;
+import com.example.makersprojectbackend.dto.course.PaidCourseDto;
 import com.example.makersprojectbackend.entity.User;
 import com.example.makersprojectbackend.entity.course.Course;
 import com.example.makersprojectbackend.entity.forms.Enroll;
 import com.example.makersprojectbackend.entity.forms.Feedback;
-import com.example.makersprojectbackend.enums.CourseDirection;
-import com.example.makersprojectbackend.enums.CourseType;
 import com.example.makersprojectbackend.mappers.CourseMapper;
 import com.example.makersprojectbackend.mappers.UserMapper;
 import com.example.makersprojectbackend.repository.UserRepository;
@@ -27,13 +26,11 @@ import java.math.BigDecimal;
 import java.util.List;
 import java.util.Optional;
 
-
 @RestController
 @RequestMapping("/user")
 @RequiredArgsConstructor
 @Tag(name = "User", description = "get personal info, make feedback/enroll(sub), get courses")
 public class UserController {
-
     private final CourseService courseService;
     private final CourseMapper courseMapper;
     private final UserMapper userMapper;
@@ -50,11 +47,10 @@ public class UserController {
         return userMapper.convertToDtoOpt(user);
     }
 
-
-    @PutMapping("/user/update/")
-    public UserDto update(@RequestBody UserDto dto) {
+    @PutMapping("/user/update")
+    public UserDto update(@RequestBody UserDto dto, Authentication authentication) {
         User user = userMapper.convertToEntity(dto);
-        return userMapper.convertToDto(userService.update(user));
+        return userMapper.convertToDto(userService.update(user, authentication));
     }
 
 
@@ -64,36 +60,32 @@ public class UserController {
         userService.enrollPaidCourse(courseId, enroll);
     }
 
-
     @PutMapping("/feedback") //связаться
     public ResponseEntity<String> feedback(@RequestBody Feedback feedback) {
         return userService.makeFeedback(feedback);
     }
 
-
     // COURSE
-    @GetMapping("/course/get/{id}")
-    public FreeCourseDto getCourseById(@PathVariable Long id) {
+    @GetMapping("/course/free/get/{id}")
+    public FreeCourseDto getFreeCourseById(@PathVariable Long id) {
         return courseMapper.convertToFreeCourseDto(courseService.getById(id));
     }
 
 
-    @GetMapping("/course/get")
-    public List<Course> getAllPaidCourses(@RequestParam(required = false) CourseType courseType) {
-        return courseService.getCoursesByType(courseType);
+    @GetMapping("/course/free/get/all")
+    public List<FreeCourseDto> getAllFreeCourses() {
+        return courseMapper.convertToFreeCourseDtoList(courseService.getAll());
+    }
+
+    @GetMapping("/course/paid/get/{id}")
+    public PaidCourseDto getPaidCourseById(@PathVariable Long id) {
+        return courseMapper.convertToPaidCourseDto(courseService.getById(id));
     }
 
 
-    @GetMapping("/course/get/all")
-    public List<Course> getAll() {
-        return courseService.getAll();
-    }
-
-
-    // SEARCH
-    @GetMapping("/course/search")
-    public List<Course> findCourses(@RequestParam(required = false) String name) {
-        return courseService.findCoursesWithFuzzyName(name);
+    @GetMapping("/course/paid/get/all")
+    public List<PaidCourseDto> getAllPaidCourses() {
+        return courseMapper.convertToPaidCourseDtoList(courseService.getAll());
     }
 
 
