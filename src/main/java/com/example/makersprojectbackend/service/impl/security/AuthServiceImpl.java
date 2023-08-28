@@ -48,7 +48,7 @@ public class AuthServiceImpl implements AuthService {
         user.get().setResetTokenExpireTime(LocalDateTime.now().plusMinutes(60));
         userRepository.save(user.get());
 
-        String resetUrl = "http://localhost:8082/reset/" + resetToken;
+        String resetUrl = "http://35.246.189.147:8082/reset/" + resetToken;
         String emailText = "Здравствуйте! " +
                 "\n\nДля сброса пароля перейдите по ссылке: " + resetUrl;
 

@@ -6,6 +6,7 @@ import com.example.makersprojectbackend.entity.User;
 import com.example.makersprojectbackend.entity.course.Course;
 import com.example.makersprojectbackend.entity.forms.Enroll;
 import com.example.makersprojectbackend.entity.forms.Feedback;
+import com.example.makersprojectbackend.enums.CourseDirection;
 import com.example.makersprojectbackend.enums.CourseType;
 import com.example.makersprojectbackend.mappers.CourseMapper;
 import com.example.makersprojectbackend.mappers.UserMapper;
@@ -22,6 +23,7 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
 
+import java.math.BigDecimal;
 import java.util.List;
 import java.util.Optional;
 
@@ -96,7 +98,6 @@ public class UserController {
 
 
     // FAVORITE
-
     @PostMapping("/favorite/add/{courseId}")
     public ResponseEntity<String> addToFavorites(@PathVariable Long courseId, Authentication authentication) {
         if (authentication == null || !authentication.isAuthenticated()) {
@@ -142,5 +143,16 @@ public class UserController {
 
         List<Course> userFavorites = favoriteService.getUserFavorites(currentUser.getId());
         return ResponseEntity.ok(userFavorites);
+    }
+
+
+    // FILTER
+    @GetMapping("/course/filter")
+    public List<Course> filterCourses(
+            @RequestParam(required = false) String courseDirection,
+            @RequestParam(required = false) BigDecimal minPrice, BigDecimal maxPrice,
+            @RequestParam(required = false) Integer maxDuration) {
+
+        return courseService.filterCourses(courseDirection, minPrice, maxPrice, maxDuration);
     }
 }

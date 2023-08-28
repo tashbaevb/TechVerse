@@ -1,26 +1,26 @@
 package com.example.makersprojectbackend.service.impl.course;
 
 import com.example.makersprojectbackend.entity.File;
-import com.example.makersprojectbackend.entity.User;
 import com.example.makersprojectbackend.entity.course.Course;
 import com.example.makersprojectbackend.enums.CourseDirection;
 import com.example.makersprojectbackend.enums.CourseType;
 import com.example.makersprojectbackend.repository.FileRepository;
-import com.example.makersprojectbackend.repository.UserRepository;
 import com.example.makersprojectbackend.repository.course.CourseRepository;
 import com.example.makersprojectbackend.repository.course.LectureRepository;
 import com.example.makersprojectbackend.repository.course.VideoLectureRepository;
 import com.example.makersprojectbackend.service.course.CourseService;
+import jakarta.persistence.criteria.Predicate;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
-import org.webjars.NotFoundException;
+import org.springframework.data.jpa.domain.Specification;
+
 
 import java.io.IOException;
 import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Service
@@ -31,7 +31,6 @@ public class CourseServiceImpl implements CourseService {
     private final LectureRepository lectureRepository;
     private final VideoLectureRepository videoLectureRepository;
     private final FileRepository fileRepository;
-    private final UserRepository userRepository;
 
 
     @Override
@@ -130,5 +129,34 @@ public class CourseServiceImpl implements CourseService {
     @Override
     public List<Course> getCoursesByType(CourseType courseType) {
         return courseRepository.findByCourseType(courseType);
+    }
+
+
+    // FILTER
+    @Override
+    public List<Course> filterCourses(String courseDirection, BigDecimal minPrice, BigDecimal maxPrice, Integer maxDuration) {
+        Specification<Course> spec = (root, query, cb) -> {
+            List<Predicate> predicates = new ArrayList<>();
+
+            if (courseDirection != null) {
+                predicates.add(cb.equal(root.get("courseDirection"), CourseDirection.valueOf(courseDirection)));
+            }
+
+            if (minPrice != null) {
+                predicates.add(cb.greaterThanOrEqualTo(root.get("price"), minPrice));
+            }
+
+            if (maxPrice != null) {
+                predicates.add(cb.lessThanOrEqualTo(root.get("price"), maxPrice));
+            }
+
+            if (maxDuration != null) {
+                predicates.add(cb.lessThanOrEqualTo(root.get("duration"), maxDuration));
+            }
+
+            return cb.and(predicates.toArray(new Predicate[0]));
+        };
+
+        return courseRepository.findAll(spec);
     }
 }

@@ -8,13 +8,9 @@ import com.example.makersprojectbackend.enums.CourseType;
 import jakarta.persistence.*;
 import lombok.*;
 import lombok.experimental.FieldDefaults;
-//import org.springframework.data.elasticsearch.annotations.Document;
 
 import java.math.BigDecimal;
-import java.util.ArrayList;
-import java.util.HashSet;
 import java.util.List;
-import java.util.Set;
 
 @Entity
 @Table(name = "courses")
@@ -48,7 +44,6 @@ public class Course {
 
     Integer duration, lectureQuantity; //продолжительность курса в часах, кол-во видео лекций
 
-
     @ManyToOne
     @JoinColumn(name = "enroll_id")
     Enroll enroll;
@@ -56,9 +51,7 @@ public class Course {
     @OneToOne
     File file;
 
-
     @ManyToOne
     @JoinColumn(name = "user_id")
     User user;
-
 }
