@@ -1,6 +1,5 @@
 package com.example.makersprojectbackend.dto.course;
 
-import com.example.makersprojectbackend.entity.quiz.Quiz;
 import lombok.AccessLevel;
 import lombok.Data;
 import lombok.experimental.FieldDefaults;
@@ -9,9 +8,12 @@ import lombok.experimental.FieldDefaults;
 @FieldDefaults(level = AccessLevel.PRIVATE)
 public class VideoLectureDto {
 
+    Long id;
+
+    String title;
+
+    String description;
+
     String link;
 
-    FreeCourseDto course;
-
-    Quiz quiz;
 }

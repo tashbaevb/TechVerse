@@ -7,9 +7,8 @@ import lombok.experimental.FieldDefaults;
 @Data
 @FieldDefaults(level = AccessLevel.PRIVATE)
 public class LectureDto {
+    Long id;
     String title;
 
     String text;
-
-    FreeCourseDto course;
 }

@@ -7,7 +7,7 @@ import java.util.List;
 
 public interface QuizService {
 
-    Quiz create(Quiz quiz);
+    Quiz create(Long videoLectureId, Quiz quiz);
 
     Quiz getById(Long id);
 

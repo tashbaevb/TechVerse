@@ -10,8 +10,8 @@ import com.example.makersprojectbackend.entity.forms.Feedback;
 import com.example.makersprojectbackend.entity.quiz.Answer;
 import com.example.makersprojectbackend.entity.quiz.Question;
 import com.example.makersprojectbackend.entity.quiz.Quiz;
-import com.example.makersprojectbackend.mappers.CourseMapper;
 import com.example.makersprojectbackend.mappers.UserMapper;
+import com.example.makersprojectbackend.mappers.course.CourseMapper;
 import com.example.makersprojectbackend.mappers.quiz.AnswerMapper;
 import com.example.makersprojectbackend.mappers.quiz.QuestionMapper;
 import com.example.makersprojectbackend.mappers.quiz.QuizMapper;
@@ -191,10 +191,10 @@ public class AdminController {
     }
 
     // ТЕСТЫ
-    @PostMapping("/quiz/create")
-    public QuizDto createQuiz(@RequestBody QuizRequest request) {
+    @PostMapping("/quiz/create/{videoLectureId}")
+    public QuizDto createQuiz(@PathVariable Long videoLectureId, @RequestBody QuizRequest request) {
         Quiz quiz = quizMapper.convertToEntity(request);
-        return quizMapper.convertToDto(quizService.create(quiz));
+        return quizMapper.convertToDto(quizService.create(videoLectureId, quiz));
     }
 
     @GetMapping("/quiz/get/{quizId}")
