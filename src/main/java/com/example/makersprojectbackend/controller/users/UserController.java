@@ -13,6 +13,7 @@ import com.example.makersprojectbackend.repository.UserRepository;
 import com.example.makersprojectbackend.service.FavoriteService;
 import com.example.makersprojectbackend.service.UserService;
 import com.example.makersprojectbackend.service.course.CourseService;
+import com.example.makersprojectbackend.service.impl.FavoriteServiceImpl;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -36,7 +37,8 @@ public class UserController {
     private final UserMapper userMapper;
     private final UserRepository userRepository;
     private final UserService userService;
-    private final FavoriteService favoriteService;
+//    private final FavoriteService favoriteService;
+    private final FavoriteServiceImpl favoriteService;
 
     // ЛИЧНЫЙ КАБИНЕТ
     @GetMapping("/personal-info")

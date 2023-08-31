@@ -26,5 +26,4 @@ public class Question {
 
     @ManyToOne
     private Quiz quiz;
-
 }

@@ -20,6 +20,5 @@ public class Feedback {
     Long id;
 
     String fullName, phoneNumber;
-    //    private String phoneNumber;
     LocalDateTime dateOfCreation;
 }

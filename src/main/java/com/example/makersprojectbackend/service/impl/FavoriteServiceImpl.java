@@ -24,24 +24,28 @@ public class FavoriteServiceImpl implements FavoriteService {
     @Override
     public void addToFavorites(Long userId, Long courseId) {
         User user = userRepository.findById(userId).orElse(null);
-        Course course = courseRepository.findById(courseId).orElse(null);
 
         if (user == null) {
             throw new RuntimeException("User not found.");
         }
 
-        if (course != null) {
-            Favorite existingFavorite = favoriteRepository.findByUserAndCourse(user, course);
-            if (existingFavorite == null) {
-                Favorite newFavorite = new Favorite();
-                newFavorite.setUser(user);
-                newFavorite.setCourse(course);
-                favoriteRepository.save(newFavorite);
-            } else {
-                throw new RuntimeException("This course is already in your favorites.");
-            }
+        Course course = courseRepository.findById(courseId).orElse(null);
+
+        if (course == null) {
+            throw new RuntimeException("Course not found.");
+        }
+
+        Favorite existingFavorite = favoriteRepository.findByUserAndCourse(user, course);
+        if (existingFavorite == null) {
+            Favorite newFavorite = new Favorite();
+            newFavorite.setUser(user);
+            newFavorite.setCourse(course);
+            favoriteRepository.save(newFavorite);
+        } else {
+            throw new RuntimeException("This course is already in your favorites.");
         }
     }
+
 
 
 

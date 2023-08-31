@@ -1,5 +1,6 @@
 package com.example.makersprojectbackend.entity.course;
 
+import com.example.makersprojectbackend.entity.Favorite;
 import com.example.makersprojectbackend.entity.File;
 import com.example.makersprojectbackend.entity.User;
 import com.example.makersprojectbackend.entity.forms.Enroll;
@@ -54,4 +55,8 @@ public class Course {
     @ManyToOne
     @JoinColumn(name = "user_id")
     User user;
+
+    @OneToOne
+    @JoinColumn(name = "favorite_id")
+    Favorite favorite;
 }
