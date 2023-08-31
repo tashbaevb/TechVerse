@@ -1,4 +1,4 @@
-package com.example.makersprojectbackend.mappers;
+package com.example.makersprojectbackend.mappers.course;
 
 import com.example.makersprojectbackend.dto.course.FreeCourseDto;
 import com.example.makersprojectbackend.dto.course.PaidCourseDto;

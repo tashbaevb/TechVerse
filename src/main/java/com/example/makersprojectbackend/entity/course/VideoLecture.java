@@ -17,11 +17,16 @@ public class VideoLecture {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     Long id;
+
+    String title;
+
+    String description;
+
     String link;
 
     @ManyToOne
     Course course;
 
-    @OneToOne(mappedBy = "videoLecture")
+    @OneToOne(mappedBy = "videoLecture", cascade = CascadeType.ALL)
     Quiz quiz;
 }

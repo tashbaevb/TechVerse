@@ -1,8 +1,10 @@
 package com.example.makersprojectbackend.service.impl.quiz;
 
+import com.example.makersprojectbackend.entity.course.VideoLecture;
 import com.example.makersprojectbackend.entity.quiz.Answer;
 import com.example.makersprojectbackend.entity.quiz.Question;
 import com.example.makersprojectbackend.entity.quiz.Quiz;
+import com.example.makersprojectbackend.repository.course.VideoLectureRepository;
 import com.example.makersprojectbackend.repository.quiz.AnswerRepository;
 import com.example.makersprojectbackend.repository.quiz.QuizRepository;
 import com.example.makersprojectbackend.service.quiz.QuizService;
@@ -19,9 +21,13 @@ import java.util.List;
 public class QuizServiceImpl implements QuizService {
     private final QuizRepository quizRepository;
     private final AnswerRepository answerRepository;
+    private final VideoLectureRepository videoLectureRepository;
 
     @Override
-    public Quiz create(Quiz quiz) {
+    public Quiz create(Long videoLectureId, Quiz quiz) {
+        VideoLecture videoLecture = videoLectureRepository.findById(videoLectureId).orElseThrow();
+        videoLecture.setQuiz(quiz);
+        quiz.setVideoLecture(videoLecture);
         return quizRepository.save(quiz);
     }
 
