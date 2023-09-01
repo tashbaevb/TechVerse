@@ -168,25 +168,25 @@ public class AdminController {
 
 
     @PutMapping("/course/lecture/add/{courseId}/{lectureId}")
-    public FreeCourseDto addLectureToCourse(@PathVariable Long courseId, @PathVariable Long lectureId) {
-        return courseMapper.convertToFreeCourseDto(courseService.addLecture(courseId, lectureId));
+    public ResponseEntity<FreeCourseDto> addLectureToCourse(@PathVariable Long courseId, @PathVariable Long lectureId) {
+        return ResponseEntity.ok(courseMapper.convertToFreeCourseDto(courseService.addLecture(courseId, lectureId).getBody()));
     }
 
 
     @DeleteMapping("/course/lecture/remove/{courseId}/{lectureId}")
-    public FreeCourseDto removeLectureToCourse(@PathVariable Long courseId, @PathVariable Long lectureId) {
+    public FreeCourseDto removeLectureToCourse(@PathVariable Long courseId, @PathVariable Long lectureId) throws Exception {
         return courseMapper.convertToFreeCourseDto(courseService.removeLecture(courseId, lectureId));
     }
 
 
-    @PutMapping("/course/v/lecture/add/{courseId}/{lectureId}")
-    public FreeCourseDto addVideoLectureToCourse(@PathVariable Long courseId, @PathVariable Long lectureId) {
+    @PutMapping("/course/lecture/v/add/{courseId}/{lectureId}")
+    public FreeCourseDto addVideoLectureToCourse(@PathVariable Long courseId, @PathVariable Long lectureId) throws Exception {
         return courseMapper.convertToFreeCourseDto(courseService.addVideoLecture(courseId, lectureId));
     }
 
 
-    @DeleteMapping("/course/v/lecture/remove/{courseId}/{lectureId}")
-    public FreeCourseDto removeVideoLectureToCourse(@PathVariable Long courseId, @PathVariable Long lectureId) {
+    @DeleteMapping("/course/lecture/v/remove/{courseId}/{lectureId}")
+    public FreeCourseDto removeVideoLectureToCourse(@PathVariable Long courseId, @PathVariable Long lectureId) throws Exception {
         return courseMapper.convertToFreeCourseDto(courseService.removeVideoLecture(courseId, lectureId));
     }
 
