@@ -9,6 +9,7 @@ import com.example.makersprojectbackend.repository.course.CourseRepository;
 import com.example.makersprojectbackend.service.impl.CommentServiceImpl;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
+import org.springframework.messaging.simp.SimpMessagingTemplate;
 import org.springframework.security.access.AccessDeniedException;
 import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
@@ -19,52 +20,58 @@ import java.util.Optional;
 @RestController
 @RequestMapping("/comment")
 @RequiredArgsConstructor
-@Tag(name = "Comment", description = "none") //Байтур, добавь сюда описание контроллера
+@Tag(name = "Comment", description = "CRUD комментов, Ответ на другой комментарий")
 public class CommentController {
 
     private final CommentServiceImpl commentServiceImpl;
     private final CommentMapper commentMapper;
     private final UserRepository userRepository;
     private final CourseRepository courseRepository;
+    private final SimpMessagingTemplate messagingTemplate;
 
-    @PostMapping("create/{courseId}")
-    public CommentDto createComment(@RequestBody CommentDto commentDto,
-                                    @PathVariable Long courseId,
-                                    Authentication authentication) {
-        String email = authentication.getName();
-        Optional<User> optionalUser = userRepository.findByEmail(email);
-        User currentUser = optionalUser.
-                orElseThrow(() -> new IllegalArgumentException("Пользователь не найден: " + email));
-
-        Comment comment = commentMapper.convertToEntity(commentDto);
-        comment.setCourse(courseRepository.findById(courseId).
-                orElseThrow(() -> new IllegalArgumentException("Курс не найден: " + courseId)));
-        comment.setUser(currentUser);
-
-        return commentMapper.convertToDTO(commentServiceImpl.create(comment, courseId, currentUser.getId()));
-    }
-
-
-    @PostMapping("reply/{courseId}/{parentCommentId}")
-    public CommentDto createReplyComment(@RequestBody CommentDto commentDto,
-                                         @PathVariable Long courseId,
-                                         @PathVariable Long parentCommentId,
-                                         Authentication authentication) {
-        String email = authentication.getName();
-        Optional<User> optionalUser = userRepository.findByEmail(email);
-        User currentUser = optionalUser.
-                orElseThrow(() -> new IllegalArgumentException("Пользователь не найден: " + email));
-
-        Comment comment = commentMapper.convertToEntity(commentDto);
-        return commentMapper.convertToDTO(commentServiceImpl.createReply(comment, courseId, currentUser.getId(), parentCommentId));
-    }
-
-
-    @GetMapping("get/replies/{commentId}")
-    public List<CommentDto> getRepliesForComment(@PathVariable Long commentId) {
-        List<Comment> replies = commentServiceImpl.getRepliesForComment(commentId);
-        return commentMapper.convertToDTOList(replies);
-    }
+//    @PostMapping("create/{courseId}")
+//    public CommentDto createComment(@RequestBody CommentDto commentDto,
+//                                    @PathVariable Long courseId,
+//                                    Authentication authentication) {
+//        String email = authentication.getName();
+//        Optional<User> optionalUser = userRepository.findByEmail(email);
+//        User currentUser = optionalUser.
+//                orElseThrow(() -> new IllegalArgumentException("Пользователь не найден: " + email));
+//
+//        Comment comment = commentMapper.convertToEntity(commentDto);
+//        comment.setCourse(courseRepository.findById(courseId).
+//                orElseThrow(() -> new IllegalArgumentException("Курс не найден: " + courseId)));
+//        comment.setUser(currentUser);
+//
+//        messagingTemplate.convertAndSend("/topic/comments", commentDto);
+//
+//        return commentMapper.convertToDTO(commentServiceImpl.create(comment, courseId, currentUser.getId()));
+//    }
+//
+//
+//    @PostMapping("reply/{courseId}/{parentCommentId}")
+//    public CommentDto createReplyComment(@RequestBody CommentDto commentDto,
+//                                         @PathVariable Long courseId,
+//                                         @PathVariable Long parentCommentId,
+//                                         Authentication authentication) {
+//        String email = authentication.getName();
+//        Optional<User> optionalUser = userRepository.findByEmail(email);
+//        User currentUser = optionalUser.
+//                orElseThrow(() -> new IllegalArgumentException("Пользователь не найден: " + email));
+//
+//        Comment comment = commentMapper.convertToEntity(commentDto);
+//
+//        messagingTemplate.convertAndSend("/topic/comments", commentDto);
+//
+//        return commentMapper.convertToDTO(commentServiceImpl.createReply(comment, courseId, currentUser.getId(), parentCommentId));
+//    }
+//
+//
+//    @GetMapping("get/replies/{commentId}")
+//    public List<CommentDto> getRepliesForComment(@PathVariable Long commentId) {
+//        List<Comment> replies = commentServiceImpl.getRepliesForComment(commentId);
+//        return commentMapper.convertToDTOList(replies);
+//    }
 
 
     @GetMapping("/get/{commentId}")
@@ -90,41 +97,44 @@ public class CommentController {
     }
 
 
-    @GetMapping("/get/course/{courseId}")
-    public List<CommentDto> getCommentsByCourseId(@PathVariable Long courseId) {
-        return commentMapper.convertToDTOList(commentServiceImpl.getCommentsByCourseId(courseId));
-    }
-
-
-    @PutMapping("/update/{courseId}/{commentId}")
-    public CommentDto updateComment(@RequestBody CommentDto commentDto,
-                                    @PathVariable Long commentId,
-                                    Authentication authentication) {
-        Comment comment = commentServiceImpl.getById(commentId);
-        Optional<User> optionalUser = userRepository.findByEmail(authentication.getName());
-        User currentUser = optionalUser.
-                orElseThrow(() -> new IllegalArgumentException("Пользователь не найден: " + authentication.getName()));
-
-        if (!comment.getUser().getId().equals(currentUser.getId())) {
-            throw new AccessDeniedException("Вы не являетесь владельцем этого комментария.");
-        }
-
-        comment.setText(commentDto.getText());
-        return commentMapper.convertToDTO(commentServiceImpl.update(comment));
-    }
-
-
-    @DeleteMapping("/delete/{commentId}")
-    public void deleteComment(@PathVariable Long commentId, Authentication authentication) {
-        Comment existingComment = commentServiceImpl.getById(commentId);
-        Optional<User> optionalUser = userRepository.findByEmail(authentication.getName());
-        User currentUser = optionalUser.
-                orElseThrow(() -> new IllegalArgumentException("Пользователь не найден: " + authentication.getName()));
-
-        if (!existingComment.getUser().getId().equals(currentUser.getId())) {
-            throw new AccessDeniedException("Вы не являетесь владельцем этого комментария.");
-        }
-
-        commentServiceImpl.delete(commentId);
-    }
+//    @GetMapping("/get/course/{courseId}")
+//    public List<CommentDto> getCommentsByCourseId(@PathVariable Long courseId) {
+//        return commentMapper.convertToDTOList(commentServiceImpl.getCommentsByCourseId(courseId));
+//    }
+//
+//
+//    @PutMapping("/update/{courseId}/{commentId}")
+//    public CommentDto updateComment(@RequestBody CommentDto commentDto,
+//                                    @PathVariable Long commentId,
+//                                    Authentication authentication) {
+//        Comment comment = commentServiceImpl.getById(commentId);
+//        Optional<User> optionalUser = userRepository.findByEmail(authentication.getName());
+//        User currentUser = optionalUser.
+//                orElseThrow(() -> new IllegalArgumentException("Пользователь не найден: " + authentication.getName()));
+//
+//        if (!comment.getUser().getId().equals(currentUser.getId())) {
+//            throw new AccessDeniedException("Вы не являетесь владельцем этого комментария.");
+//        }
+//
+//        comment.setText(commentDto.getText());
+//
+//        messagingTemplate.convertAndSend("/topic/comments", commentDto);
+//
+//        return commentMapper.convertToDTO(commentServiceImpl.update(comment));
+//    }
+//
+//
+//    @DeleteMapping("/delete/{commentId}")
+//    public void deleteComment(@PathVariable Long commentId, Authentication authentication) {
+//        Comment existingComment = commentServiceImpl.getById(commentId);
+//        Optional<User> optionalUser = userRepository.findByEmail(authentication.getName());
+//        User currentUser = optionalUser.
+//                orElseThrow(() -> new IllegalArgumentException("Пользователь не найден: " + authentication.getName()));
+//
+//        if (!existingComment.getUser().getId().equals(currentUser.getId())) {
+//            throw new AccessDeniedException("Вы не являетесь владельцем этого комментария.");
+//        }
+//
+//        commentServiceImpl.delete(commentId);
+//    }
 }

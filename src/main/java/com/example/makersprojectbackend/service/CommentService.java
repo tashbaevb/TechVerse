@@ -23,15 +23,4 @@ public interface CommentService {
     Comment update(Comment comment);
 
     void delete(Long id);
-
-//
-//    Comment addToFavorites(Long commentId, Long userId);
-//
-//    Comment removeFromFavorites(Long commentId, Long userId);
-//
-//    int getFavoriteUserCount(Long commentId);
-//
-//    List<UserDto> getFavoriteUsers(Long commentId);
-//
-//    List<CommentDto> getFavoriteCommentsByUser(Long userId);
 }
