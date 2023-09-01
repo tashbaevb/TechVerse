@@ -11,6 +11,7 @@ import java.util.List;
 @Data
 @FieldDefaults(level = AccessLevel.PRIVATE)
 public class PaidCourseDto {
+    Long id;
     String name;
     String description;
     BigDecimal price;

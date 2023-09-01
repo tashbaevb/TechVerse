@@ -10,6 +10,7 @@ import java.util.List;
 @Data
 @FieldDefaults(level = AccessLevel.PRIVATE)
 public class FreeCourseDto {
+    Long id;
     String name, description;
     CourseType courseType;
     List<LectureDto> lectures; //лекции

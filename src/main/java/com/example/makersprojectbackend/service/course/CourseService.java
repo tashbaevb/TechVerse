@@ -1,6 +1,7 @@
 package com.example.makersprojectbackend.service.course;
 
 import com.example.makersprojectbackend.entity.course.Course;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
@@ -18,13 +19,13 @@ public interface CourseService {
 
     void delete(Long id);
 
-    Course addLecture(Long courseId, Long lectureId);
+    ResponseEntity<Course> addLecture(Long courseId, Long lectureId);
 
-    Course removeLecture(Long courseId, Long lectureId);
+    Course removeLecture(Long courseId, Long lectureId) throws Exception;
 
-    Course addVideoLecture(Long courseId, Long lectureId);
+    Course addVideoLecture(Long courseId, Long lectureId) throws Exception;
 
-    Course removeVideoLecture(Long courseId, Long lectureId);
+    Course removeVideoLecture(Long courseId, Long lectureId) throws Exception;
 
     String uploadImage(Long courseId, MultipartFile file) throws IOException;
 

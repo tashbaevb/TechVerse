@@ -2,12 +2,16 @@ package com.example.makersprojectbackend.service.impl.course;
 
 import com.example.makersprojectbackend.entity.File;
 import com.example.makersprojectbackend.entity.course.Course;
+import com.example.makersprojectbackend.entity.course.Lecture;
+import com.example.makersprojectbackend.entity.course.VideoLecture;
 import com.example.makersprojectbackend.repository.FileRepository;
 import com.example.makersprojectbackend.repository.course.CourseRepository;
 import com.example.makersprojectbackend.repository.course.LectureRepository;
 import com.example.makersprojectbackend.repository.course.VideoLectureRepository;
 import com.example.makersprojectbackend.service.course.CourseService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -43,6 +47,7 @@ public class CourseServiceImpl implements CourseService {
         course.setName(courseDetails.getName());
         course.setDescription(courseDetails.getDescription());
         course.setDuration(course.getDuration());
+        course.setLectureQuantity(course.getLectures().size());
         return courseRepository.save(course);
     }
 
@@ -52,31 +57,67 @@ public class CourseServiceImpl implements CourseService {
     }
 
     @Override
-    public Course addLecture(Long courseId, Long lectureId) {
+    public ResponseEntity<Course> addLecture(Long courseId, Long lectureId){
         Course course = getById(courseId);
-        course.getLectures().add(lectureRepository.findById(lectureId).orElseThrow());
+        Lecture lecture = lectureRepository.findById(lectureId).orElseThrow();
+        List<Lecture> lectures = course.getLectures();
+        if (lectures.contains(lecture)){
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
+        }
+        lectures.add(lecture);
+        lecture.setCourse(course);
+        course.setLectures(lectures);
+        course.setLectureQuantity(course.getLectures().size());
+        lectureRepository.save(lecture);
+        return ResponseEntity.ok(courseRepository.save(course));
+    }
+
+    @Override
+    public Course removeLecture(Long courseId, Long lectureId) throws Exception {
+        Course course = getById(courseId);
+        Lecture lecture = lectureRepository.findById(lectureId).orElseThrow();
+        List<Lecture> lectures = course.getLectures();
+        if (lectures.contains(lecture)){
+            lectures.remove(lecture);
+            lecture.setCourse(null);
+            course.setLectures(lectures);
+            course.setLectureQuantity(course.getLectures().size());
+            lectureRepository.save(lecture);
+            lectureRepository.delete(lecture);
+            return courseRepository.save(course);
+        }else throw new Exception("Лекция отсуствует в курсе");
+
+    }
+
+    @Override
+    public Course addVideoLecture(Long courseId, Long videoLectureId) throws Exception {
+        Course course = getById(courseId);
+        VideoLecture videoLecture = videoLectureRepository.findById(videoLectureId).orElseThrow();
+        List<VideoLecture> videoLectures = course.getVideoLectures();
+        if (videoLectures.contains(videoLecture)){
+            throw new Exception("Лекция уже есть");
+        }
+        videoLectures.add(videoLecture);
+        videoLecture.setCourse(course);
+        course.setVideoLectures(videoLectures);
+        videoLectureRepository.save(videoLecture);
         return courseRepository.save(course);
     }
 
     @Override
-    public Course removeLecture(Long courseId, Long lectureId) {
+    public Course removeVideoLecture(Long courseId, Long videoLectureId) throws Exception {
         Course course = getById(courseId);
-        course.getLectures().remove(lectureRepository.findById(lectureId).orElseThrow());
-        return courseRepository.save(course);
-    }
+        VideoLecture lecture = videoLectureRepository.findById(videoLectureId).orElseThrow();
+        List<VideoLecture> videoLectures = course.getVideoLectures();
+        if (videoLectures.contains(lecture)){
+            videoLectures.remove(lecture);
+            lecture.setCourse(null);
+            course.setVideoLectures(videoLectures);
+            videoLectureRepository.save(lecture);
+            videoLectureRepository.delete(lecture);
+            return courseRepository.save(course);
+        }else throw new Exception("Лекция отсуствует в курсе");
 
-    @Override
-    public Course addVideoLecture(Long courseId, Long videoLectureId) {
-        Course course = getById(courseId);
-        course.getVideoLectures().add(videoLectureRepository.findById(videoLectureId).orElseThrow());
-        return courseRepository.save(course);
-    }
-
-    @Override
-    public Course removeVideoLecture(Long courseId, Long videoLectureId) {
-        Course course = getById(courseId);
-        course.getVideoLectures().remove(videoLectureRepository.findById(videoLectureId).orElseThrow());
-        return courseRepository.save(course);
     }
 
     @Override
