@@ -16,4 +16,6 @@ public class VideoLectureDto {
 
     String link;
 
+    Long courseId;
+
 }
