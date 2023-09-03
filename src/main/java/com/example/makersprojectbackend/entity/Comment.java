@@ -34,12 +34,4 @@ public class Comment {
     @ManyToOne
     @JoinColumn(name = "parent_comment_id")
     Comment parentComment; // ссылка на родительский комментарий
-
-
-//    @ManyToMany(mappedBy = "favoritedComments")
-//    Set<User> favoritedByUsers = new HashSet<>(); // пользователи, добавившие комментарий в избранное
-//
-//    @ManyToMany(mappedBy = "favoritedByUsers")
-//    Set<Comment> favoritedComments = new HashSet<>(); // комментарии, добавленные в избранное пользователем
-
 }
