@@ -1,7 +1,9 @@
 package com.example.makersprojectbackend.mappers;
 
 import com.example.makersprojectbackend.dto.CommentDto;
+import com.example.makersprojectbackend.dto.course.VideoLectureDto;
 import com.example.makersprojectbackend.entity.Comment;
+import com.example.makersprojectbackend.entity.course.VideoLecture;
 import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Component;

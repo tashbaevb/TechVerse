@@ -18,7 +18,7 @@ public interface CommentService {
 
     List<Comment> getCommentsByUserId(Long userId);
 
-    List<Comment> getCommentsByCourseId(Long courseId);
+    List<Comment> getCommentsByVideoLectureId(Long courseId);
 
     Comment update(Comment comment);
 

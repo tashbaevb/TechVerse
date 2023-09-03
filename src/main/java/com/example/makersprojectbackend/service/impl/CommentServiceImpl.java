@@ -2,10 +2,10 @@ package com.example.makersprojectbackend.service.impl;
 
 import com.example.makersprojectbackend.entity.Comment;
 import com.example.makersprojectbackend.entity.User;
-import com.example.makersprojectbackend.entity.course.Course;
+import com.example.makersprojectbackend.entity.course.VideoLecture;
 import com.example.makersprojectbackend.repository.CommentRepository;
 import com.example.makersprojectbackend.repository.UserRepository;
-import com.example.makersprojectbackend.repository.course.CourseRepository;
+import com.example.makersprojectbackend.repository.course.VideoLectureRepository;
 import com.example.makersprojectbackend.service.CommentService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -17,18 +17,18 @@ import java.util.List;
 public class CommentServiceImpl implements CommentService {
 
     private final CommentRepository commentRepository;
-    private final CourseRepository courseRepository;
     private final UserRepository userRepository;
+    private final VideoLectureRepository videoLectureRepository;
 
     @Override
-    public Comment create(Comment comment, Long courseId, Long userId) {
-        Course course = courseRepository.findById(courseId)
-                .orElseThrow(() -> new IllegalArgumentException("Курс не найден: " + courseId));
+    public Comment create(Comment comment, Long videoId, Long userId) {
+        VideoLecture videoLecture = videoLectureRepository.findById(videoId)
+                .orElseThrow(() -> new IllegalArgumentException("Курс не найден: " + videoId));
 
         User user = userRepository.findById(userId)
                 .orElseThrow(() -> new IllegalArgumentException("Пользователь не найден: " + userId));
 
-        comment.setCourse(course);
+        comment.setVideoLecture(videoLecture);
         comment.setUser(user);
 
         Comment createdComment = commentRepository.save(comment);
@@ -38,14 +38,14 @@ public class CommentServiceImpl implements CommentService {
 
 
     @Override
-    public Comment createReply(Comment comment, Long courseId, Long userId, Long parentCommentId) {
-        Course course = courseRepository.findById(courseId)
-                .orElseThrow(() -> new IllegalArgumentException("Курс не найден: " + courseId));
+    public Comment createReply(Comment comment, Long videoId, Long userId, Long parentCommentId) {
+        VideoLecture videoLecture = videoLectureRepository.findById(videoId)
+                .orElseThrow(() -> new IllegalArgumentException("Курс не найден: " + videoId));
 
         User user = userRepository.findById(userId)
                 .orElseThrow(() -> new IllegalArgumentException("Пользователь не найден: " + userId));
 
-        comment.setCourse(course);
+        comment.setVideoLecture(videoLecture);
         comment.setUser(user);
 
         if (parentCommentId != null) {
@@ -86,8 +86,8 @@ public class CommentServiceImpl implements CommentService {
 
 
     @Override
-    public List<Comment> getCommentsByCourseId(Long courseId) {
-        return commentRepository.findByCourseId(courseId);
+    public List<Comment> getCommentsByVideoLectureId(Long videoId) {
+        return commentRepository.findByVideoLectureId(videoId);
     }
 
 

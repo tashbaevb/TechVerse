@@ -15,5 +15,4 @@ public class VideoLectureDto {
     String description;
 
     String link;
-
 }

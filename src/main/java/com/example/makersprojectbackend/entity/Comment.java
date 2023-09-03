@@ -1,6 +1,7 @@
 package com.example.makersprojectbackend.entity;
 
 import com.example.makersprojectbackend.entity.course.Course;
+import com.example.makersprojectbackend.entity.course.VideoLecture;
 import jakarta.persistence.*;
 import lombok.*;
 import lombok.experimental.FieldDefaults;
@@ -23,8 +24,8 @@ public class Comment {
     String text;
 
     @ManyToOne
-    @JoinColumn(name = "course_id", nullable = false)
-    Course course;
+    @JoinColumn(name = "video_lecture_id", nullable = false)
+    VideoLecture videoLecture;
 
     @ManyToOne
     @JoinColumn(name = "user_id", nullable = false)

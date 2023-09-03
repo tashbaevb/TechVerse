@@ -12,7 +12,7 @@ public interface CommentRepository extends JpaRepository<Comment, Long> {
 
     List<Comment> findByUserId(Long userId);
 
-    List<Comment> findByCourseId(Long courseID);
+    List<Comment> findByVideoLectureId(Long videoLectureId);
 
     List<Comment> findByParentComment(Comment parentComment);
 }

@@ -49,5 +49,4 @@ public class User {
     @OneToOne
     @JoinColumn(name = "course_id")
     Course course;
-
 }

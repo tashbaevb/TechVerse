@@ -1,9 +1,12 @@
 package com.example.makersprojectbackend.entity.course;
 
+import com.example.makersprojectbackend.entity.Comment;
 import com.example.makersprojectbackend.entity.quiz.Quiz;
 import jakarta.persistence.*;
 import lombok.*;
 import lombok.experimental.FieldDefaults;
+
+import java.util.List;
 
 @Entity
 @Table(name = "vids")
@@ -18,15 +21,14 @@ public class VideoLecture {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     Long id;
 
-    String title;
-
-    String description;
-
-    String link;
+    String title, description, link;
 
     @ManyToOne
     Course course;
 
     @OneToOne(mappedBy = "videoLecture", cascade = CascadeType.ALL)
     Quiz quiz;
+
+    @OneToMany(mappedBy = "videoLecture", cascade = CascadeType.ALL)
+    List<Comment> comments;
 }
