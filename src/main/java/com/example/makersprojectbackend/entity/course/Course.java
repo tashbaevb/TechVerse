@@ -27,6 +27,7 @@ public class Course {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     Long id;
 
+    @Column(columnDefinition = "text")
     String name, description;
 
     BigDecimal price;

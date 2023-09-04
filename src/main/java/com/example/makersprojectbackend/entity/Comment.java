@@ -1,6 +1,5 @@
 package com.example.makersprojectbackend.entity;
 
-import com.example.makersprojectbackend.entity.course.Course;
 import com.example.makersprojectbackend.entity.course.VideoLecture;
 import jakarta.persistence.*;
 import lombok.*;

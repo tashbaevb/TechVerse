@@ -11,4 +11,6 @@ public class LectureDto {
     String title;
 
     String text;
+
+    Long courseId;
 }

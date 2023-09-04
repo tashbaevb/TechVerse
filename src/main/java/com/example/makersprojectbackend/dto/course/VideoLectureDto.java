@@ -8,11 +8,7 @@ import lombok.experimental.FieldDefaults;
 @FieldDefaults(level = AccessLevel.PRIVATE)
 public class VideoLectureDto {
 
-    Long id;
+    Long id, courseId;
 
-    String title;
-
-    String description;
-
-    String link;
+    String title, description, link;
 }

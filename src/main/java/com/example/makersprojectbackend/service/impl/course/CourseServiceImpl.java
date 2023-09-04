@@ -92,7 +92,6 @@ public class CourseServiceImpl implements CourseService {
             course.setLectures(lectures);
             course.setLectureQuantity(course.getLectures().size());
             lectureRepository.save(lecture);
-            lectureRepository.delete(lecture);
             return courseRepository.save(course);
         } else throw new Exception("Лекция отсуствует в курсе");
 
@@ -123,7 +122,6 @@ public class CourseServiceImpl implements CourseService {
             lecture.setCourse(null);
             course.setVideoLectures(videoLectures);
             videoLectureRepository.save(lecture);
-            videoLectureRepository.delete(lecture);
             return courseRepository.save(course);
         } else throw new Exception("Лекция отсуствует в курсе");
 

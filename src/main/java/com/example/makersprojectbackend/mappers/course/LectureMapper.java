@@ -4,6 +4,7 @@ import com.example.makersprojectbackend.dto.course.LectureDto;
 import com.example.makersprojectbackend.dto.course.VideoLectureDto;
 import com.example.makersprojectbackend.entity.course.Lecture;
 import com.example.makersprojectbackend.entity.course.VideoLecture;
+import com.example.makersprojectbackend.service.course.CourseService;
 import lombok.AllArgsConstructor;
 import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Component;
@@ -17,11 +18,15 @@ public class LectureMapper {
     private ModelMapper mapper;
 
     public LectureDto convertToDto(Lecture lecture) {
-        return mapper.map(lecture, LectureDto.class);
+        LectureDto dto = mapper.map(lecture, LectureDto.class);
+        dto.setCourseId(lecture.getCourse().getId());
+        return dto;
     }
 
     public VideoLectureDto convertToDto(VideoLecture videoLecture) {
-        return mapper.map(videoLecture, VideoLectureDto.class);
+        VideoLectureDto dto = mapper.map(videoLecture, VideoLectureDto.class);
+        dto.setCourseId(videoLecture.getCourse().getId());
+        return dto;
     }
 
     public Lecture convertToEntity(LectureDto lectureDto) {
