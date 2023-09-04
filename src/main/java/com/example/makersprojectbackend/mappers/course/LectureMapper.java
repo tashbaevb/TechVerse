@@ -19,13 +19,19 @@ public class LectureMapper {
 
     public LectureDto convertToDto(Lecture lecture) {
         LectureDto dto = mapper.map(lecture, LectureDto.class);
-        dto.setCourseId(lecture.getCourse().getId());
+        if (lecture.getCourse() != null) {
+            dto.setCourseId(lecture.getCourse().getId());
+            return dto;
+        }
         return dto;
     }
 
     public VideoLectureDto convertToDto(VideoLecture videoLecture) {
         VideoLectureDto dto = mapper.map(videoLecture, VideoLectureDto.class);
-        dto.setCourseId(videoLecture.getCourse().getId());
+        if (videoLecture.getCourse() != null) {
+            dto.setCourseId(videoLecture.getCourse().getId());
+            return dto;
+        }
         return dto;
     }
 
